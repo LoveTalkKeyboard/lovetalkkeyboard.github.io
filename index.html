@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>戀聊鍵盤 LoveChat Keyboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&display=swap">
+<style>
+  :root{
+    --pink-1:#fff0f6;
+    --pink-2:#ffd3e8;
+    --pink-3:#ffb6d6;
+    --pink-4:#ff7ab3;
+    --text:#2f2330;
+    --muted:#7b6676;
+    --card:#fff;
+    --radius:18px;
+    --star-color:#ffc107;
+    --btn-bg-gradient: linear-gradient(135deg, var(--pink-2), var(--pink-3));
+    --btn-text: var(--text);
+    --btn-icon: var(--text);
+    --btn-font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  html.dark{
+    --pink-1:#2b1220;
+    --pink-2:#3a1225;
+    --pink-3:#4b1530;
+    --pink-4:#ff79b3;
+    --text:#f6eef2;
+    --muted:#c9b6c4;
+    --card:#151515;
+    --star-color:#ffdd70;
+    --btn-bg-gradient: linear-gradient(135deg, var(--pink-3), var(--pink-2));
+    --btn-text: var(--text);
+    --btn-icon: var(--text);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:"Nunito",system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans TC","Microsoft JhengHei",sans-serif;
+    background:linear-gradient(180deg,var(--pink-1),#fff);color:var(--text);transition:background .35s,color .35s;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  header{display:flex;justify-content:space-between;align-items:center;padding:20px 6%}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo-bubble{
+    width:64px;  
+    height:64px; 
+    border-radius:16px; 
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden; 
+  }
+  .logo-img{
+    width:100%;   
+    height:100%;  
+    object-fit:cover; 
+    border-radius:12px; 
+  }
+  .brand-title{line-height:1}
+  .brand-title .title{font-size:18px;font-weight:800;margin:0}
+  .brand-title .subtitle{font-size:12px;color:var(--muted);margin-top:8px;}
+
+  .controls{display:flex;align-items:center;gap:10px}
+  select.lang-select{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,.06);background:transparent;font-weight:600}
+  button.dark-toggle{background:linear-gradient(90deg,var(--pink-3),var(--pink-4));color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+
+  /* Hero */
+  .hero{padding:56px 6%;padding-bottom: 20px;text-align:center;background:linear-gradient(180deg,var(--pink-1),#fff);overflow:hidden;position:relative}
+  .hero .title{font-size:34px;font-weight:800;margin:6px 0}
+  .hero .lead{color:var(--muted);font-size:16px;margin-bottom:18px}
+
+  /* ========== 调整后：App Store按钮样式 ========== */
+  .appstore-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 9px; /* 官方圆角 */
+    box-shadow:0 12px 30px rgba(255, 182, 214, 0.2);
+    transition:transform .18s ease, box-shadow .18s ease;
+    width: 144px; /* 官方标准宽度 */
+    height: 44px; /* 官方标准高度 */
+    background: var(--btn-bg-gradient); /* 保留粉色渐变背景 */
+    padding: 0 8px; 
+  }
+  .appstore-btn:active {
+    transform: translateY(2px) scale(.99);
+    box-shadow:0 8px 20px rgba(255, 182, 214, 0.15);
+  }
+  .appstore-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+  }
+  .appstore-icon {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 22px;
+    color: var(--btn-icon);
+  }
+  .appstore-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: var(--btn-font);
+    font-weight: 600;
+    color: var(--btn-text);
+    line-height: 1.1;
+  }
+  .appstore-text-top {
+    font-size: 10px;
+  }
+  .appstore-text-bottom {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  /* layout */
+  main{max-width:1120px;margin:30px auto;padding:20px;flex:1}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:40px}
+  .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(47,35,48,.06)}
+  h3{margin:0 0 8px;display:flex;align-items:center;gap:10px;font-size:20px}
+  p{color:var(--muted);margin:0 0 10px}
+
+  /* 评论区样式 */
+  .reviews{
+    max-width:1120px;
+    margin:0 auto 60px;
+    padding:0 20px;
+  }
+  .reviews h2{
+    text-align:center;font-size:28px;font-weight:800;
+    margin:0 0 30px;color:var(--text);
+  }
+  .review-list{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+  .review{
+    background:var(--card);border-radius:var(--radius);
+    padding:20px;box-shadow:0 8px 24px rgba(47,35,48,.05);
+    display:flex;align-items:flex-start;gap:16px;
+    transition:transform .2s ease;
+    width:100%;
+  }
+  .review:hover{transform:translateY(-4px);}
+  .review img{
+    width:60px;height:60px;border-radius:50%;
+    object-fit:cover;border:3px solid var(--pink-2);
+  }
+  .review-content{flex:1;}
+  .review .stars{
+    color:var(--star-color);font-size:18px;font-weight:800;
+    margin-bottom:8px;letter-spacing:2px;
+  }
+  .review-content p{
+    color:var(--text);line-height:1.6;font-size:15px;
+    margin:0;font-weight:500;
+  }
+
+  /* phone mockup */
+  .mockup-wrap{display:flex;justify-content:center;margin:30px 0}
+  .mockup{width:340px;height:630px;border-radius:36px;padding:14px;background:linear-gradient(180deg,#fff,#fff6fb);box-shadow:0 30px 60px rgba(0,0,0,.12);position:relative;overflow:hidden}
+  html.dark .mockup{background:linear-gradient(180deg,#111,#0f0810)}
+  .screen{width:100%;height:100%;border-radius:26px;background:#fff;padding:12px;overflow:hidden;position:relative}
+  html.dark .screen{background:#141217}
+
+  .bubble{max-width:72%;padding:10px 14px;border-radius:14px;margin:8px 0;opacity:0;transform:translateY(8px);transition:all .35s}
+  .bubble.other{background:#f1f1f1;color:#222;border-radius:14px 14px 14px 4px}
+  .bubble.me{background:linear-gradient(90deg,var(--pink-3),var(--pink-4));color:#fff;margin-left:auto;border-radius:14px 14px 4px 14px}
+  html.dark .bubble.other{background:#2b2b2b;color:#fff}
+
+  /* typing / dots */
+  .typing{display:inline-block;background:rgba(0,0,0,.06);padding:8px 12px;border-radius:12px}
+  html.dark .typing{background:rgba(255,255,255,.06)}
+  .dots span{display:inline-block;width:6px;height:6px;background:rgba(0,0,0,.24);border-radius:50%;margin:0 2px;opacity:0.4;animation:blink 1s infinite}
+  .dots span:nth-child(2){animation-delay:.15s}
+  .dots span:nth-child(3){animation-delay:.3s}
+  @keyframes blink{0%{opacity:.18;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}100%{opacity:.18;transform:translateY(0)}}
+
+  /* heart particles */
+  .hearts-layer{position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;overflow:hidden;z-index:1000}
+  .heart-p{position:absolute;width:18px;height:18px;background:linear-gradient(90deg,#ff8fc9,#ff57a8);transform:rotate(45deg);opacity:.95;border-radius:4px;will-change:transform,opacity}
+
+  /* footer 样式 */
+  footer{
+    margin-top:auto;
+    padding:30px 6%;
+    text-align:center;
+    border-top:1px solid rgba(47,35,48,.08);
+    background:var(--pink-1);
+    transition:background .35s,color .35s;
+  }
+  html.dark footer{
+    background:var(--pink-1);
+    border-top-color:rgba(255,255,255,.08);
+  }
+  .contact{
+    max-width:600px;
+    margin:0 auto 20px;
+  }
+  .contact h3{
+    font-size:18px;
+    justify-content:center;
+    color:var(--text);
+    margin-bottom:12px;
+  }
+  .contact p{
+    color:var(--muted);
+    line-height:1.6;
+  }
+  .contact a{
+    color:var(--pink-4);
+    text-decoration:none;
+    font-weight:600;
+    transition:color .2s ease;
+  }
+  .contact a:hover{
+    color:var(--pink-3);
+  }
+  footer .copyright{
+    color:var(--muted);
+    font-size:14px;
+    margin:0;
+  }
+
+  /* utilities */
+  .row{display:flex;gap:12px;align-items:center}
+  .muted{color:var(--muted);font-size:13px}
+
+  /* 移动端适配 */
+  @media(max-width:900px){
+    .grid{grid-template-columns:1fr}
+    .hero .title{font-size:26px}
+    .mockup{width:280px;height:520px}
+    footer{padding:20px 6%;margin-top:40px}
+    .contact h3{font-size:16px}
+    .contact p{font-size:14px}
+    .reviews h2{font-size:24px}
+    .review{flex-direction:column;align-items:flex-start;text-align:left}
+    .review img{margin-bottom:12px}
+    
+    /* 移动端App Store按钮适配 */
+    .appstore-btn {
+      width: 120px;
+      height: 38px;
+    }
+    .appstore-icon {
+      font-size: 18px;
+    }
+    .appstore-text-top {
+      font-size: 8px;
+    }
+    .appstore-text-bottom {
+      font-size: 12px;
+    }
+    /* 移动端Logo适配 */
+    .logo-bubble{
+      width:56px;
+      height:56px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo-bubble">
+      <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/b2e61f328c104505a6c32cec9007c58e.png~tplv-a9rns2rl98-24:720:720.png?rcl=202512121602280879A404704C240A3FFB&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1766131349&x-signature=h1%2FR9DVx%2BhRgr00U6K%2BSCzoLqUo%3D" 
+           alt="戀聊鍵盤" 
+           class="logo-img">
+    </div>
+    <div class="brand-title">
+      <div class="title" id="brandTitle">戀聊鍵盤</div>
+      <div class="subtitle muted" id="brandSubtitle">聊得甜、回得快、懂你剛剛好</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <select id="langSelect" class="lang-select" aria-label="Language select">
+      <option value="zh-Hant">繁體中文</option>
+      <option value="zh-Hans">简体中文</option>
+      <option value="en">English</option>
+    </select>
+    <button id="darkToggle" class="dark-toggle" aria-pressed="false">深色</button>
+  </div>
+</header>
+
+<section class="hero" aria-labelledby="heroTitle">
+  <div style="max-width:920px;margin:0 auto">
+    <div class="title hero-title" id="heroTitle">💗 戀聊鍵盤 —— 讓對話更甜、更靠近</div>
+    <div class="lead" id="heroLead">AI 生成撩人話術、貼心回覆、情侶主題鍵盤與可愛貼圖，並以本地化隱私保護守護你們的秘密。</div>
+    <div style="margin-top:18px;display:flex;justify-content:center;margin-bottom:5px">
+      <a href="https://apps.apple.com/" target="_blank" style="display:inline-block;">
+        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83"
+            alt="Download on the App Store"
+            style="height: 55px;">
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="mockup-wrap" aria-hidden="false">
+  <div class="mockup" role="img" aria-label="Phone chat mockup">
+    <div class="screen" id="chatScreen" aria-live="polite" aria-atomic="false">
+      <!-- messages will be injected by JS -->
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="grid">
+    <div class="card" data-card-index="0">
+      <h3>🧑‍🤝‍🧑 幫你回 · 人設千變萬化</h3>
+      <p>依照你的性別與偏好推薦 18 種預設戀愛人設，從溫柔男友到調情女王，一鍵切換想呈現的聊天形象。</p>
+    </div>
+    <div class="card" data-card-index="1">
+      <h3>🎤 超會說 · 句句有溫度</h3>
+      <p>多種語氣選擇：高情商、甜蜜、撒嬌、冷淡、霸氣等。AI 自動潤色，讓每句話都更有魅力。</p>
+    </div>
+    <div class="card" data-card-index="2">
+      <h3>💬 開場白 · 不再冷場</h3>
+      <p>100+ 場景開場：初識、試探、幽默、邀約、早安晚安等，無論關係階段都能找到適合的第一句。</p>
+    </div>
+    <div class="card" data-card-index="3">
+      <h3>❤️‍🔥 親密度 · 智能調整</h3>
+      <p>根據你設定的親密等級，AI 會調整回覆的曖昧度，從禮貌到大膽，掌握聊天節奏。</p>
+    </div>
+    <div class="card" data-card-index="4">
+      <h3>🔒 隱私保護 · 你的秘密，鎖在你手機</h3>
+      <p>所有生成與語氣處理在本地完成，不上雲、不外傳。隱私輸入模式、私密詞庫與最小權限設計，讓你安心使用。</p>
+    </div>
+    <div class="card" data-card-index="5">
+      <h3>✨ 更多小功能 · 讓聊天更順</h3>
+      <p>快速風格切換、智能錯字修正、自訂快捷甜句，還可選擇透過 iCloud 安全同步你的偏好（僅限你帳號）。</p>
+    </div>
+  </div>
+
+  <section class="reviews">
+    <h2 id="reviewsTitle">💬 用戶評論</h2>
+    <div class="review-list">
+      <div class="review">
+        <img src="https://randomuser.me/api/portraits/women/91.jpg" alt="用戶1" loading="lazy">
+        <div class="review-content">
+          <div class="stars">★★★★★</div>
+          <p id="review1">用戀聊鍵盤之後，和男友的對話每天都甜滋滋的～AI推薦的回覆超貼心！</p>
+        </div>
+      </div>
+      <div class="review">
+        <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="用戶2" loading="lazy">
+        <div class="review-content">
+          <div class="stars">★★★★★</div>
+          <p id="review2">終於不用苦惱要怎麼回覆曖昧對象了，這個鍵盤真的懂女生的心💖</p>
+        </div>
+      </div>
+      <div class="review">
+        <img src="https://randomuser.me/api/portraits/women/62.jpg" alt="用戶3" loading="lazy">
+        <div class="review-content">
+          <div class="stars">★★★★★</div>
+          <p id="review3">自從用了戀聊鍵盤，我們的感情越來越好，開場白超好用，再也不冷場！</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="contact" id="footerContact">
+    <h3 id="contactTitle">📩 聯繫我們</h3>
+    <p id="contactDesc">如有問題或建議，請發送郵件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a></p>
+  </div>
+  <p class="copyright" id="copyrightText">© 2025 戀聊鍵盤 版權所有</p>
+</footer>
+
+<div class="hearts-layer" id="heartsLayer" aria-hidden="true"></div>
+
+<script>
+const LOCALES = {
+  'zh-Hant': {
+    brand: '戀聊鍵盤',
+    subtitle: '聊得甜、回得快、懂你剛剛好',
+    heroTitle: '💗 戀聊鍵盤 —— 讓對話更甜、更靠近',
+    heroLead: 'AI 生成撩人話術、貼心回覆、情侶主題鍵盤與可愛貼圖，並以本地化隱私保護守護你們的秘密。',
+    footer: {
+      contactTitle: '📩 聯繫我們',
+      contactDesc: '如有問題或建議，請發送郵件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
+      copyright: '© 2025 戀聊鍵盤 版權所有'
+    },
+    reviews: {
+      title: '💬 用戶評論',
+      review1: '用戀聊鍵盤之後，和男友的對話每天都甜滋滋的～AI推薦的回覆超貼心！',
+      review2: '終於不用苦惱要怎麼回覆曖昧對象了，這個鍵盤真的懂女生的心💖',
+      review3: '自從用了戀聊鍵盤，我們的感情越來越好，開場白超好用，再也不冷場！'
+    },
+    sampleMsgs: [
+      {from:'other', text:'嘿～在幹嘛？'},
+      {from:'me', text:'想你了，所以來找你聊聊天 😊'},
+      {from:'other', text:'好甜…你今天怎麼這麼主動？'},
+      {from:'me', text:'因為你回我，我就會變更甜 💗'}
+    ],
+    cards: [
+      {title: '🧑‍🤝‍🧑 幫你回 · 人設千變萬化', desc: '依照你的性別與偏好推薦 18 種預設戀愛人設，從溫柔男友到調情女王，一鍵切換想呈現的聊天形象。'},
+      {title: '🎤 超會說 · 句句有溫度', desc: '多種語氣選擇：高情商、甜蜜、撒嬌、冷淡、霸氣等。AI 自動潤色，讓每句話都更有魅力。'},
+      {title: '💬 開場白 · 不再冷場', desc: '100+ 場景開場：初識、試探、幽默、邀約、早安晚安等，無論關係階段都能找到適合的第一句。'},
+      {title: '❤️‍🔥 親密度 · 智能調整', desc: '根據你設定的親密等級，AI 會調整回覆的曖昧度，從禮貌到大膽，掌握聊天節奏。'},
+      {title: '🔒 隱私保護 · 你的秘密，鎖在你手機', desc: '所有生成與語氣處理在本地完成，不上雲、不外傳。隱私輸入模式、私密詞庫與最小權限設計，讓你安心使用。'},
+      {title: '✨ 更多小功能 · 讓聊天更順', desc: '快速風格切換、智能錯字修正、自訂快捷甜句，還可選擇透過 iCloud 安全同步你的偏好（僅限你帳號）。'}
+    ]
+  },
+  'zh-Hans': {
+    brand:'恋聊键盘',
+    subtitle:'聊得甜、回得快、懂你刚刚好',
+    heroTitle:'💗 恋聊键盘 —— 让对话更甜、更靠近',
+    heroLead:'AI 生成撩人话术、贴心回复、情侣主题键盘与可爱贴图，并以本地隐私保护守护你们的秘密。',
+    footer: {
+      contactTitle: '📩 联系我们',
+      contactDesc: '如有问题或建议，请发送邮件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
+      copyright: '© 2025 恋聊键盘 版权所有'
+    },
+    reviews: {
+      title: '💬 用户评论',
+      review1: '用了恋聊键盘之后，和男友的对话每天都甜滋滋的～AI推荐的回复超贴心！',
+      review2: '终于不用苦恼该怎么回复暧昧对象了，这个键盘真的懂女生的心💖',
+      review3: '自从用了恋聊键盘，我们的感情越来越好，开场白超好用，再也不冷场！'
+    },
+    sampleMsgs:[
+      {from:'other', text:'嘿～在干嘛？'},
+      {from:'me', text:'想你了，所以来找你聊天 😊'},
+      {from:'other', text:'好甜…你今天怎么这么主动？'},
+      {from:'me', text:'因为你回我，我就会变更甜 💗'}
+    ],
+    cards: [
+      {title: '🧑‍🤝‍🧑 帮你回 · 人设千变万化', desc: '依照你的性别与偏好推荐 18 种预设恋爱人设，从温柔男友到调情女王，一键切换想呈现的聊天形象。'},
+      {title: '🎤 超会说 · 句句有温度', desc: '多种语气选择：高情商、甜蜜、撒娇、冷淡、霸气等。AI 自动润色，让每句话都更有魅力。'},
+      {title: '💬 开场白 · 不再冷场', desc: '100+ 场景开场：初识、试探、幽默、邀约、早安晚安等，无论关系阶段都能找到适合的第一句。'},
+      {title: '❤️‍🔥 亲密度 · 智能调整', desc: '根据你设定的亲密等级，AI 会调整回复的暧昧度，从礼貌到大胆，掌握聊天节奏。'},
+      {title: '🔒 隐私保护 · 你的秘密，锁在你手机', desc: '所有生成与语气处理在本地完成，不上云、不外传。隐私输入模式、私密词库与最小权限设计，让你安心使用。'},
+      {title: '✨ 更多小功能 · 让聊天更顺', desc: '快速风格切换、智能错字修正、自定义快捷甜句，还可选择通过 iCloud 安全同步你的偏好（仅限你账号）。'}
+    ]
+  },
+  'en': {
+    brand:'LoveChat Keyboard',
+    subtitle:'Sweet chats. Fast replies. Just right.',
+    heroTitle:'💗 LoveChat Keyboard — Make every message feel a little more romantic',
+    heroLead:'AI-powered flirty replies, mood-aware suggestions, couple themes and cute emoji—built with privacy-first design so your sweet moments stay private.',
+    appstoreText: {
+      top: 'Download on the',
+      bottom: 'App Store'
+    },
+    footer: {
+      contactTitle: '📩 Contact Us',
+      contactDesc: 'For inquiries or feedback, email us at: <a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
+      copyright: '© 2025 Love Keyboard All Rights Reserved'
+    },
+    reviews: {
+      title: '💬 User Reviews',
+      review1: 'Since using LoveChat Keyboard, my chats with my boyfriend are sweet every day～AI-recommended replies are so thoughtful!',
+      review2: 'No more struggling to reply to my crush — this keyboard really gets what girls want💖',
+      review3: 'Our relationship has gotten better since using LoveChat Keyboard. The opening lines are amazing, no more awkward silences!'
+    },
+    sampleMsgs:[
+      {from:'other', text:'Hey — what are you up to?'},
+      {from:'me', text:"Miss you, wanted to chat 😊"},
+      {from:'other', text:"That's sweet... why are you so active today?"},
+      {from:'me', text:"Because you replied, I get sweeter 💗"}
+    ],
+    cards: [
+      {title: '🧑‍🤝‍🧑 Reply For You · 18 Personalities', desc: '18 preset dating personalities based on your gender and preferences — from gentle boyfriend to flirty queen, switch your chat persona with one tap.'},
+      {title: '🎤 Great Conversationalist · Warm Messages', desc: 'Multiple tone options: high EQ, sweet, coquettish, cool, domineering, etc. AI automatically polishes every message to make it more charming.'},
+      {title: '💬 Opening Lines · No More Awkward Silences', desc: '100+ scenario openers: first meeting, testing the waters, humor, invitations, good morning/good night — find the perfect first line for any relationship stage.'},
+      {title: '❤️‍🔥 Intimacy Level · Smart Adjustment', desc: 'AI adjusts the flirt level of replies based on your set intimacy grade — from polite to bold, master the chat rhythm perfectly.'},
+      {title: '🔒 Privacy Protection · Your Secrets Stay Safe', desc: 'All generation and tone processing done locally on your device — no cloud uploads, no data sharing. Privacy input mode, private lexicon and minimal permission design for complete peace of mind.'},
+      {title: '✨ More Features · Smoother Chats', desc: 'Quick style switching, smart typo correction, custom shortcut sweet phrases, and optional secure sync of preferences via iCloud (your account only).'}
+    ]
+  }
+};
+
+// 获取UI元素
+const langSelect = document.getElementById('langSelect');
+const brandTitle = document.getElementById('brandTitle');
+const brandSubtitle = document.getElementById('brandSubtitle');
+const heroTitle = document.getElementById('heroTitle');
+const heroLead = document.getElementById('heroLead');
+const chatScreen = document.getElementById('chatScreen');
+const heartsLayer = document.getElementById('heartsLayer');
+const contactTitle = document.getElementById('contactTitle');
+const contactDesc = document.getElementById('contactDesc');
+const copyrightText = document.getElementById('copyrightText');
+const reviewsTitle = document.getElementById('reviewsTitle');
+const review1 = document.getElementById('review1');
+const review2 = document.getElementById('review2');
+const review3 = document.getElementById('review3');
+const appstoreTextTop = document.getElementById('appstoreTextTop');
+const appstoreTextBottom = document.getElementById('appstoreTextBottom');
+
+// 应用语言配置
+function applyLocale(code){
+  const dict = LOCALES[code] || LOCALES['zh-Hant'];
+  brandTitle.textContent = dict.brand;
+  brandSubtitle.textContent = dict.subtitle;
+  heroTitle.textContent = dict.heroTitle;
+  heroLead.textContent = dict.heroLead;
+  contactTitle.textContent = dict.footer.contactTitle;
+  contactDesc.innerHTML = dict.footer.contactDesc;
+  copyrightText.textContent = dict.footer.copyright;
+  reviewsTitle.textContent = dict.reviews.title;
+  review1.textContent = dict.reviews.review1;
+  review2.textContent = dict.reviews.review2;
+  review3.textContent = dict.reviews.review3;
+  
+  // 设置App Store按钮文字
+  if(appstoreTextTop && appstoreTextBottom) {
+    appstoreTextTop.textContent = dict.appstoreText.top;
+    appstoreTextBottom.textContent = dict.appstoreText.bottom;
+  }
+  
+  if(dict.cards && dict.cards.length > 0) {
+    dict.cards.forEach((card, index) => {
+      const cardElement = document.querySelector(`.card[data-card-index="${index}"]`);
+      if(cardElement) {
+        const titleElement = cardElement.querySelector('h3');
+        const descElement = cardElement.querySelector('p');
+        if(titleElement) titleElement.textContent = card.title;
+        if(descElement) descElement.textContent = card.desc;
+      }
+    });
+  }
+  SAMPLE_MSGS = dict.sampleMsgs;
+}
+let SAMPLE_MSGS = LOCALES['zh-Hant'].sampleMsgs;
+
+// 自动检测语言
+const sysLang = navigator.language || navigator.userLanguage || 'zh-Hant';
+if(sysLang.startsWith('zh-TW')||sysLang.startsWith('zh-HK')||sysLang.startsWith('zh-Hant')) langSelect.value = 'zh-Hant';
+else if(sysLang.startsWith('zh')) langSelect.value = 'zh-Hans';
+else langSelect.value = 'en';
+applyLocale(langSelect.value);
+
+// 语言切换事件
+langSelect.addEventListener('change', (e)=>{
+  applyLocale(e.target.value);
+});
+
+// 深色模式切换
+const darkToggle = document.getElementById('darkToggle');
+darkToggle.addEventListener('click', ()=>{
+  const isDark = document.documentElement.classList.toggle('dark');
+  darkToggle.setAttribute('aria-pressed', !!isDark);
+  darkToggle.textContent = isDark ? '淺色' : '深色';
+});
+if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
+  document.documentElement.classList.add('dark');
+  darkToggle.textContent = '淺色';
+}
+
+// 聊天模拟逻辑
+let msgIndex = 0;
+function createTypingBubble(){
+  const wrap = document.createElement('div');
+  wrap.className = 'bubble other typing';
+  const dots = document.createElement('span');
+  dots.className = 'dots';
+  dots.innerHTML = '<span></span><span></span><span></span>';
+  wrap.appendChild(dots);
+  return wrap;
+}
+function createBubble(msg){
+  const el = document.createElement('div');
+  el.className = 'bubble ' + (msg.from === 'me' ? 'me' : 'other');
+  el.textContent = msg.text;
+  return el;
+}
+function playChatLoop(){
+  chatScreen.innerHTML = '';
+  msgIndex = 0;
+  function next(){
+    const msgs = SAMPLE_MSGS;
+    if(msgIndex >= msgs.length){
+      setTimeout(()=>{ playChatLoop(); }, 1600);
+      return;
+    }
+    const typing = createTypingBubble();
+    chatScreen.appendChild(typing);
+    chatScreen.scrollTop = chatScreen.scrollHeight;
+    const typingDuration = 700 + Math.random()*400;
+    setTimeout(()=>{
+      typing.remove();
+      const b = createBubble(msgs[msgIndex]);
+      chatScreen.appendChild(b);
+      requestAnimationFrame(()=>{
+        b.style.opacity = 1;
+        b.style.transform = 'translateY(0)';
+      });
+      if(msgs[msgIndex].from === 'me'){
+        spawnHearts(6, {x:260 + Math.random()*40, y:160 + Math.random()*220});
+      }
+      msgIndex++;
+      setTimeout(next, 900 + Math.random()*500);
+    }, typingDuration);
+  }
+  next();
+}
+playChatLoop();
+
+// 爱心粒子效果
+function spawnHearts(count=8, origin=null){
+  for(let i=0;i<count;i++){
+    const h = document.createElement('div');
+    h.className = 'heart-p';
+    h.style.left = (origin && origin.x ? origin.x : (20 + Math.random()* (window.innerWidth-40))) + 'px';
+    h.style.top = (origin && origin.y ? origin.y : -20 + Math.random()*40) + 'px';
+    const size = 10 + Math.random()*18;
+    h.style.width = size + 'px';
+    h.style.height = size + 'px';
+    h.style.background = `linear-gradient(135deg, rgba(255,140,180,${0.95 - Math.random()*0.2}), rgba(255,90,155,${0.95 - Math.random()*0.2}))`;
+    heartsLayer.appendChild(h);
+    const dx = (Math.random()-0.5) * 300;
+    const dy = window.innerHeight * (0.6 + Math.random()*0.6);
+    const rot = (Math.random()-0.5)*720;
+    const dur = 2200 + Math.random()*1600;
+    h.animate([
+      { transform: `translate3d(0px,0px,0) rotate(0deg)`, opacity:1 },
+      { transform: `translate3d(${dx}px,${dy}px,0) rotate(${rot}deg)`, opacity:0.02 }
+    ], { duration: dur, easing: 'cubic-bezier(.2,.9,.2,1)' });
+    setTimeout(()=>{ h.remove(); }, dur+80);
+  }
+}
+setInterval(()=>{ spawnHearts(3); }, 2800);
+</script>
+</body>
+</html>
