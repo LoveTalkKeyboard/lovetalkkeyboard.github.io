@@ -53,45 +53,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* 关键：隐藏容器外的图片部分，避免溢出 */
-  border: none; /* 可选：清除可能的默认边框 */
-  padding: 0; /* 可选：清除可能的默认内边距 */
+  overflow: hidden;
+  border: none;
+  padding: 0;
 }
 
 .logo-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 关键：填满容器且不拉伸变形，多余部分裁剪 */
+  object-fit: cover;
   border-radius: 12px;
-  display: block; /* 可选：清除图片默认的行内空白间隙 */
-  object-position: center; /* 可选：让图片居中裁剪，优先显示中间内容 */
+  display: block;
+  object-position: center;
 }
   .brand-title{line-height:1}
   .brand-title .title{font-size:18px;font-weight:800;margin:0}
   .brand-title .subtitle{font-size:12px;color:var(--muted);margin-top:8px;}
 
   .controls{display:flex;align-items:center;gap:10px}
-  select.lang-select{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,.06);background:transparent;font-weight:600}
+  select.lang-select{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,.06);background:transparent;color:var(--text);font-weight:600}
   button.dark-toggle{background:linear-gradient(90deg,var(--pink-3),var(--pink-4));color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
 
-  /* Hero */
-  .hero{padding:56px 6%;padding-bottom: 20px;text-align:center;background:linear-gradient(180deg,var(--pink-1),#fff);overflow:hidden;position:relative}
+  .hero{padding:56px 6%;padding-bottom:20px;text-align:center;background:linear-gradient(180deg,var(--pink-1),#fff);overflow:hidden;position:relative}
+  html.dark body,
+  html.dark .hero{background:linear-gradient(180deg,var(--pink-1),#151515)}
   .hero .title{font-size:34px;font-weight:800;margin:6px 0}
   .hero .lead{color:var(--muted);font-size:16px;margin-bottom:18px}
+  .app-store-badge{height:55px}
 
-  /* ========== 调整后：App Store按钮样式 ========== */
   .appstore-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    border-radius: 9px; /* 官方圆角 */
+    border-radius: 9px;
     box-shadow:0 12px 30px rgba(255, 182, 214, 0.2);
     transition:transform .18s ease, box-shadow .18s ease;
-    width: 144px; /* 官方标准宽度 */
-    height: 44px; /* 官方标准高度 */
-    background: var(--btn-bg-gradient); /* 保留粉色渐变背景 */
-    padding: 0 8px; 
+    width: 144px;
+    height: 44px;
+    background: var(--btn-bg-gradient);
+    padding: 0 8px;
   }
   .appstore-btn:active {
     transform: translateY(2px) scale(.99);
@@ -119,59 +120,25 @@
     color: var(--btn-text);
     line-height: 1.1;
   }
-  .appstore-text-top {
-    font-size: 10px;
-  }
-  .appstore-text-bottom {
-    font-size: 14px;
-    font-weight: 700;
-  }
+  .appstore-text-top { font-size: 10px; }
+  .appstore-text-bottom { font-size: 14px; font-weight: 700; }
 
-  /* layout */
   main{max-width:1120px;margin:30px auto;padding:20px;flex:1}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:40px}
   .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(47,35,48,.06)}
   h3{margin:0 0 8px;display:flex;align-items:center;gap:10px;font-size:20px}
   p{color:var(--muted);margin:0 0 10px}
 
-  /* 评论区样式 */
-  .reviews{
-    max-width:1120px;
-    margin:0 auto 60px;
-    padding:0 20px;
-  }
-  .reviews h2{
-    text-align:center;font-size:28px;font-weight:800;
-    margin:0 0 30px;color:var(--text);
-  }
-  .review-list{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:20px;
-  }
-  .review{
-    background:var(--card);border-radius:var(--radius);
-    padding:20px;box-shadow:0 8px 24px rgba(47,35,48,.05);
-    display:flex;align-items:flex-start;gap:16px;
-    transition:transform .2s ease;
-    width:100%;
-  }
+  .reviews{max-width:1120px;margin:0 auto 60px;padding:0 20px;}
+  .reviews h2{text-align:center;font-size:28px;font-weight:800;margin:0 0 30px;color:var(--text);}
+  .review-list{display:grid;grid-template-columns:1fr;gap:20px;}
+  .review{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 8px 24px rgba(47,35,48,.05);display:flex;align-items:flex-start;gap:16px;transition:transform .2s ease;width:100%;}
   .review:hover{transform:translateY(-4px);}
-  .review img{
-    width:60px;height:60px;border-radius:50%;
-    object-fit:cover;border:3px solid var(--pink-2);
-  }
+  .review img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid var(--pink-2);}
   .review-content{flex:1;}
-  .review .stars{
-    color:var(--star-color);font-size:18px;font-weight:800;
-    margin-bottom:8px;letter-spacing:2px;
-  }
-  .review-content p{
-    color:var(--text);line-height:1.6;font-size:15px;
-    margin:0;font-weight:500;
-  }
+  .review .stars{color:var(--star-color);font-size:18px;font-weight:800;margin-bottom:8px;letter-spacing:2px;}
+  .review-content p{color:var(--text);line-height:1.6;font-size:15px;margin:0;font-weight:500;}
 
-  /* phone mockup */
   .mockup-wrap{display:flex;justify-content:center;margin:30px 0}
   .mockup{width:340px;height:630px;border-radius:36px;padding:14px;background:linear-gradient(180deg,#fff,#fff6fb);box-shadow:0 30px 60px rgba(0,0,0,.12);position:relative;overflow:hidden}
   html.dark .mockup{background:linear-gradient(180deg,#111,#0f0810)}
@@ -183,7 +150,6 @@
   .bubble.me{background:linear-gradient(90deg,var(--pink-3),var(--pink-4));color:#fff;margin-left:auto;border-radius:14px 14px 4px 14px}
   html.dark .bubble.other{background:#2b2b2b;color:#fff}
 
-  /* typing / dots */
   .typing{display:inline-block;background:rgba(0,0,0,.06);padding:8px 12px;border-radius:12px}
   html.dark .typing{background:rgba(255,255,255,.06)}
   .dots span{display:inline-block;width:6px;height:6px;background:rgba(0,0,0,.24);border-radius:50%;margin:0 2px;opacity:0.4;animation:blink 1s infinite}
@@ -191,58 +157,24 @@
   .dots span:nth-child(3){animation-delay:.3s}
   @keyframes blink{0%{opacity:.18;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}100%{opacity:.18;transform:translateY(0)}}
 
-  /* heart particles */
   .hearts-layer{position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;overflow:hidden;z-index:1000}
   .heart-p{position:absolute;width:18px;height:18px;background:linear-gradient(90deg,#ff8fc9,#ff57a8);transform:rotate(45deg);opacity:.95;border-radius:4px;will-change:transform,opacity}
 
-  /* footer 样式 */
-  footer{
-    margin-top:auto;
-    padding:30px 6%;
-    text-align:center;
-    border-top:1px solid rgba(47,35,48,.08);
-    background:var(--pink-1);
-    transition:background .35s,color .35s;
-  }
-  html.dark footer{
-    background:var(--pink-1);
-    border-top-color:rgba(255,255,255,.08);
-  }
-  .contact{
-    max-width:600px;
-    margin:0 auto 20px;
-  }
-  .contact h3{
-    font-size:18px;
-    justify-content:center;
-    color:var(--text);
-    margin-bottom:12px;
-  }
-  .contact p{
-    color:var(--muted);
-    line-height:1.6;
-  }
-  .contact a{
-    color:var(--pink-4);
-    text-decoration:none;
-    font-weight:600;
-    transition:color .2s ease;
-  }
-  .contact a:hover{
-    color:var(--pink-3);
-  }
-  footer .copyright{
-    color:var(--muted);
-    font-size:14px;
-    margin:0;
-  }
+  footer{margin-top:auto;padding:30px 6%;text-align:center;border-top:1px solid rgba(47,35,48,.08);background:var(--pink-1);transition:background .35s,color .35s;}
+  html.dark footer{background:var(--pink-1);border-top-color:rgba(255,255,255,.08);}
+  .contact{max-width:600px;margin:0 auto 20px;}
+  .contact h3{font-size:18px;justify-content:center;color:var(--text);margin-bottom:12px;}
+  .contact p{color:var(--muted);line-height:1.6;}
+  .contact a{color:var(--pink-4);text-decoration:none;font-weight:600;transition:color .2s ease;}
+  .contact a:hover{color:var(--pink-3);}
+  footer .copyright{color:var(--muted);font-size:14px;margin:0;}
 
-  /* utilities */
   .row{display:flex;gap:12px;align-items:center}
   .muted{color:var(--muted);font-size:13px}
 
-  /* 移动端适配 */
   @media(max-width:900px){
+    header{align-items:flex-start;gap:16px;flex-direction:column}
+    .controls{width:100%;justify-content:space-between}
     .grid{grid-template-columns:1fr}
     .hero .title{font-size:26px}
     .mockup{width:280px;height:520px}
@@ -252,26 +184,12 @@
     .reviews h2{font-size:24px}
     .review{flex-direction:column;align-items:flex-start;text-align:left}
     .review img{margin-bottom:12px}
-    
-    /* 移动端App Store按钮适配 */
-    .appstore-btn {
-      width: 120px;
-      height: 38px;
-    }
-    .appstore-icon {
-      font-size: 18px;
-    }
-    .appstore-text-top {
-      font-size: 8px;
-    }
-    .appstore-text-bottom {
-      font-size: 12px;
-    }
-    /* 移动端Logo适配 */
-    .logo-bubble{
-      width:56px;
-      height:56px;
-    }
+    .appstore-btn { width: 120px; height: 38px; }
+    .appstore-icon { font-size: 18px; }
+    .appstore-text-top { font-size: 8px; }
+    .appstore-text-bottom { font-size: 12px; }
+    .app-store-badge{height:48px}
+    .logo-bubble{width:56px;height:56px;}
   }
 </style>
 </head>
@@ -280,7 +198,7 @@
 <header>
   <div class="brand">
     <div class="logo-bubble">
-      <img src="./logo.jpg" alt="戀聊鍵盤" class="logo-img">
+      <img src="./logo.jpg" alt="戀聊鍵盤" class="logo-img" id="logoImg">
     </div>
     <div class="brand-title">
       <div class="title" id="brandTitle">戀聊鍵盤</div>
@@ -304,19 +222,15 @@
     <div class="lead" id="heroLead">AI 生成撩人話術、貼心回覆、情侶主題鍵盤與可愛貼圖，並以本地化隱私保護守護你們的秘密。</div>
     <div style="margin-top:18px;display:flex;justify-content:center;margin-bottom:5px">
       <a href="https://apps.apple.com/us/app/%E6%88%80%E8%81%8A%E9%8D%B5%E7%9B%A4/id6756173954" target="_blank" style="display:inline-block;">
-        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83"
-            alt="Download on the App Store"
-            style="height: 55px;">
+        <img id="appStoreBadge" class="app-store-badge" src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
       </a>
     </div>
   </div>
 </section>
 
 <div class="mockup-wrap" aria-hidden="false">
-  <div class="mockup" role="img" aria-label="Phone chat mockup">
-    <div class="screen" id="chatScreen" aria-live="polite" aria-atomic="false">
-      <!-- messages will be injected by JS -->
-    </div>
+  <div class="mockup" role="img" aria-label="Phone chat mockup" id="phoneMockup">
+    <div class="screen" id="chatScreen" aria-live="polite" aria-atomic="false"></div>
   </div>
 </div>
 
@@ -389,10 +303,17 @@
 <script>
 const LOCALES = {
   'zh-Hant': {
+    htmlLang: 'zh-Hant',
+    pageTitle: '戀聊鍵盤 LoveTalk Keyboard',
     brand: '戀聊鍵盤',
     subtitle: '聊得甜、回得快、懂你剛剛好',
     heroTitle: '💗 戀聊鍵盤 —— 讓對話更甜、更靠近',
     heroLead: 'AI 生成撩人話術、貼心回覆、情侶主題鍵盤與可愛貼圖，並以本地化隱私保護守護你們的秘密。',
+    darkLabel: '深色',
+    lightLabel: '淺色',
+    logoAlt: '戀聊鍵盤',
+    appStoreAlt: '在 App Store 下載',
+    appStoreLocale: 'zh-tw',
     footer: {
       contactTitle: '📩 聯繫我們',
       contactDesc: '如有問題或建議，請發送郵件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
@@ -420,10 +341,17 @@ const LOCALES = {
     ]
   },
   'zh-Hans': {
+    htmlLang: 'zh-Hans',
+    pageTitle: '恋聊键盘 LoveTalk Keyboard',
     brand:'恋聊键盘',
     subtitle:'聊得甜、回得快、懂你刚刚好',
     heroTitle:'💗 恋聊键盘 —— 让对话更甜、更靠近',
     heroLead:'AI 生成撩人话术、贴心回复、情侣主题键盘与可爱贴图，并以本地隐私保护守护你们的秘密。',
+    darkLabel: '深色',
+    lightLabel: '浅色',
+    logoAlt: '恋聊键盘',
+    appStoreAlt: '在 App Store 下载',
+    appStoreLocale: 'zh-cn',
     footer: {
       contactTitle: '📩 联系我们',
       contactDesc: '如有问题或建议，请发送邮件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
@@ -451,14 +379,17 @@ const LOCALES = {
     ]
   },
   'en': {
+    htmlLang: 'en',
+    pageTitle: 'LoveTalk Keyboard',
     brand:'LoveTalk Keyboard',
     subtitle:'Sweet chats. Fast replies. Just right.',
     heroTitle:'💗 LoveChat Keyboard — Make every message feel a little more romantic',
     heroLead:'AI-powered flirty replies, mood-aware suggestions, couple themes and cute emoji—built with privacy-first design so your sweet moments stay private.',
-    appstoreText: {
-      top: 'Download on the',
-      bottom: 'App Store'
-    },
+    darkLabel: 'Dark',
+    lightLabel: 'Light',
+    logoAlt: 'LoveTalk Keyboard',
+    appStoreAlt: 'Download on the App Store',
+    appStoreLocale: 'en-us',
     footer: {
       contactTitle: '📩 Contact Us',
       contactDesc: 'For inquiries or feedback, email us at: <a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
@@ -487,7 +418,7 @@ const LOCALES = {
   }
 };
 
-// 获取UI元素
+const SUPPORTED_LANGUAGES = ['zh-Hant', 'zh-Hans', 'en'];
 const langSelect = document.getElementById('langSelect');
 const brandTitle = document.getElementById('brandTitle');
 const brandSubtitle = document.getElementById('brandSubtitle');
@@ -502,12 +433,68 @@ const reviewsTitle = document.getElementById('reviewsTitle');
 const review1 = document.getElementById('review1');
 const review2 = document.getElementById('review2');
 const review3 = document.getElementById('review3');
-const appstoreTextTop = document.getElementById('appstoreTextTop');
-const appstoreTextBottom = document.getElementById('appstoreTextBottom');
+const appStoreBadge = document.getElementById('appStoreBadge');
+const logoImg = document.getElementById('logoImg');
+const darkToggle = document.getElementById('darkToggle');
 
-// 应用语言配置
+let currentLocale = 'en';
+let SAMPLE_MSGS = LOCALES['en'].sampleMsgs;
+let msgIndex = 0;
+let chatLoopToken = 0;
+
+function normalizeLanguage(language) {
+  const value = String(language || '').toLowerCase();
+
+  if (value.startsWith('zh')) {
+    if (
+      value.includes('hans') ||
+      value.includes('-cn') ||
+      value.includes('-sg') ||
+      value.includes('-my')
+    ) {
+      return 'zh-Hans';
+    }
+
+    return 'zh-Hant';
+  }
+
+  if (value.startsWith('en')) {
+    return 'en';
+  }
+
+  return '';
+}
+
+function detectLanguage() {
+  const browserLanguages = navigator.languages && navigator.languages.length
+    ? navigator.languages
+    : [navigator.language || navigator.userLanguage];
+
+  for (const language of browserLanguages) {
+    const normalized = normalizeLanguage(language);
+    if (SUPPORTED_LANGUAGES.includes(normalized)) {
+      return normalized;
+    }
+  }
+
+  return 'en';
+}
+
+function updateDarkToggleLabel(){
+  const dict = LOCALES[currentLocale] || LOCALES.en;
+  darkToggle.textContent = document.documentElement.classList.contains('dark')
+    ? dict.lightLabel
+    : dict.darkLabel;
+}
+
 function applyLocale(code){
-  const dict = LOCALES[code] || LOCALES['zh-Hant'];
+  const nextCode = SUPPORTED_LANGUAGES.includes(code) ? code : 'en';
+  const dict = LOCALES[nextCode] || LOCALES.en;
+  currentLocale = nextCode;
+
+  document.documentElement.lang = dict.htmlLang;
+  document.title = dict.pageTitle;
+  langSelect.value = nextCode;
   brandTitle.textContent = dict.brand;
   brandSubtitle.textContent = dict.subtitle;
   heroTitle.textContent = dict.heroTitle;
@@ -519,54 +506,40 @@ function applyLocale(code){
   review1.textContent = dict.reviews.review1;
   review2.textContent = dict.reviews.review2;
   review3.textContent = dict.reviews.review3;
-  
-  // 设置App Store按钮文字
-  if(appstoreTextTop && appstoreTextBottom) {
-    appstoreTextTop.textContent = dict.appstoreText.top;
-    appstoreTextBottom.textContent = dict.appstoreText.bottom;
-  }
-  
-  if(dict.cards && dict.cards.length > 0) {
-    dict.cards.forEach((card, index) => {
-      const cardElement = document.querySelector(`.card[data-card-index="${index}"]`);
-      if(cardElement) {
-        const titleElement = cardElement.querySelector('h3');
-        const descElement = cardElement.querySelector('p');
-        if(titleElement) titleElement.textContent = card.title;
-        if(descElement) descElement.textContent = card.desc;
-      }
-    });
-  }
+  logoImg.alt = dict.logoAlt;
+  appStoreBadge.alt = dict.appStoreAlt;
+  appStoreBadge.src = `https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/${dict.appStoreLocale}?size=250x83`;
+
+  dict.cards.forEach((card, index) => {
+    const cardElement = document.querySelector(`.card[data-card-index="${index}"]`);
+    if(!cardElement) return;
+
+    const titleElement = cardElement.querySelector('h3');
+    const descElement = cardElement.querySelector('p');
+    if(titleElement) titleElement.textContent = card.title;
+    if(descElement) descElement.textContent = card.desc;
+  });
+
   SAMPLE_MSGS = dict.sampleMsgs;
+  updateDarkToggleLabel();
+  playChatLoop();
 }
-let SAMPLE_MSGS = LOCALES['zh-Hant'].sampleMsgs;
 
-// 自动检测语言
-const sysLang = navigator.language || navigator.userLanguage || 'zh-Hant';
-if(sysLang.startsWith('zh-TW')||sysLang.startsWith('zh-HK')||sysLang.startsWith('zh-Hant')) langSelect.value = 'zh-Hant';
-else if(sysLang.startsWith('zh')) langSelect.value = 'zh-Hans';
-else langSelect.value = 'en';
-applyLocale(langSelect.value);
-
-// 语言切换事件
 langSelect.addEventListener('change', (e)=>{
   applyLocale(e.target.value);
 });
 
-// 深色模式切换
-const darkToggle = document.getElementById('darkToggle');
 darkToggle.addEventListener('click', ()=>{
   const isDark = document.documentElement.classList.toggle('dark');
-  darkToggle.setAttribute('aria-pressed', !!isDark);
-  darkToggle.textContent = isDark ? '淺色' : '深色';
+  darkToggle.setAttribute('aria-pressed', String(isDark));
+  updateDarkToggleLabel();
 });
+
 if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
   document.documentElement.classList.add('dark');
-  darkToggle.textContent = '淺色';
+  darkToggle.setAttribute('aria-pressed', 'true');
 }
 
-// 聊天模拟逻辑
-let msgIndex = 0;
 function createTypingBubble(){
   const wrap = document.createElement('div');
   wrap.className = 'bubble other typing';
@@ -576,26 +549,36 @@ function createTypingBubble(){
   wrap.appendChild(dots);
   return wrap;
 }
+
 function createBubble(msg){
   const el = document.createElement('div');
   el.className = 'bubble ' + (msg.from === 'me' ? 'me' : 'other');
   el.textContent = msg.text;
   return el;
 }
+
 function playChatLoop(){
+  const token = ++chatLoopToken;
   chatScreen.innerHTML = '';
   msgIndex = 0;
+
   function next(){
+    if(token !== chatLoopToken) return;
+
     const msgs = SAMPLE_MSGS;
     if(msgIndex >= msgs.length){
-      setTimeout(()=>{ playChatLoop(); }, 1600);
+      setTimeout(()=>{ if(token === chatLoopToken) playChatLoop(); }, 1600);
       return;
     }
+
     const typing = createTypingBubble();
     chatScreen.appendChild(typing);
     chatScreen.scrollTop = chatScreen.scrollHeight;
     const typingDuration = 700 + Math.random()*400;
+
     setTimeout(()=>{
+      if(token !== chatLoopToken) return;
+
       typing.remove();
       const b = createBubble(msgs[msgIndex]);
       chatScreen.appendChild(b);
@@ -610,11 +593,10 @@ function playChatLoop(){
       setTimeout(next, 900 + Math.random()*500);
     }, typingDuration);
   }
+
   next();
 }
-playChatLoop();
 
-// 爱心粒子效果
 function spawnHearts(count=8, origin=null){
   for(let i=0;i<count;i++){
     const h = document.createElement('div');
@@ -637,15 +619,9 @@ function spawnHearts(count=8, origin=null){
     setTimeout(()=>{ h.remove(); }, dur+80);
   }
 }
+
+applyLocale(detectLanguage());
 setInterval(()=>{ spawnHearts(3); }, 2800);
 </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
