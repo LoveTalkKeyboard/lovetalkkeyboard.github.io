@@ -1,627 +1,559 @@
-<!doctype html>
-<html lang="zh-Hant">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>戀聊鍵盤 LoveTalk Keyboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&display=swap">
-<style>
-  :root{
-    --pink-1:#fff0f6;
-    --pink-2:#ffd3e8;
-    --pink-3:#ffb6d6;
-    --pink-4:#ff7ab3;
-    --text:#2f2330;
-    --muted:#7b6676;
-    --card:#fff;
-    --radius:18px;
-    --star-color:#ffc107;
-    --btn-bg-gradient: linear-gradient(135deg, var(--pink-2), var(--pink-3));
-    --btn-text: var(--text);
-    --btn-icon: var(--text);
-    --btn-font: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-  html.dark{
-    --pink-1:#2b1220;
-    --pink-2:#3a1225;
-    --pink-3:#4b1530;
-    --pink-4:#ff79b3;
-    --text:#f6eef2;
-    --muted:#c9b6c4;
-    --card:#151515;
-    --star-color:#ffdd70;
-    --btn-bg-gradient: linear-gradient(135deg, var(--pink-3), var(--pink-2));
-    --btn-text: var(--text);
-    --btn-icon: var(--text);
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;font-family:"Nunito",system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans TC","Microsoft JhengHei",sans-serif;
-    background:linear-gradient(180deg,var(--pink-1),#fff);color:var(--text);transition:background .35s,color .35s;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-  }
-
-  header{display:flex;justify-content:space-between;align-items:center;padding:20px 6%}
-  .brand{display:flex;align-items:center;gap:14px}
-  .logo-bubble {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: none;
-  padding: 0;
-}
-
-.logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  display: block;
-  object-position: center;
-}
-  .brand-title{line-height:1}
-  .brand-title .title{font-size:18px;font-weight:800;margin:0}
-  .brand-title .subtitle{font-size:12px;color:var(--muted);margin-top:8px;}
-
-  .controls{display:flex;align-items:center;gap:10px}
-  select.lang-select{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,.06);background:transparent;color:var(--text);font-weight:600}
-  button.dark-toggle{background:linear-gradient(90deg,var(--pink-3),var(--pink-4));color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
-
-  .hero{padding:56px 6%;padding-bottom:20px;text-align:center;background:linear-gradient(180deg,var(--pink-1),#fff);overflow:hidden;position:relative}
-  html.dark body,
-  html.dark .hero{background:linear-gradient(180deg,var(--pink-1),#151515)}
-  .hero .title{font-size:34px;font-weight:800;margin:6px 0}
-  .hero .lead{color:var(--muted);font-size:16px;margin-bottom:18px}
-  .app-store-badge{height:55px}
-
-  .appstore-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    border-radius: 9px;
-    box-shadow:0 12px 30px rgba(255, 182, 214, 0.2);
-    transition:transform .18s ease, box-shadow .18s ease;
-    width: 144px;
-    height: 44px;
-    background: var(--btn-bg-gradient);
-    padding: 0 8px;
-  }
-  .appstore-btn:active {
-    transform: translateY(2px) scale(.99);
-    box-shadow:0 8px 20px rgba(255, 182, 214, 0.15);
-  }
-  .appstore-btn-content {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    height: 100%;
-    width: 100%;
-    justify-content: center;
-  }
-  .appstore-icon {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 22px;
-    color: var(--btn-icon);
-  }
-  .appstore-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-family: var(--btn-font);
-    font-weight: 600;
-    color: var(--btn-text);
-    line-height: 1.1;
-  }
-  .appstore-text-top { font-size: 10px; }
-  .appstore-text-bottom { font-size: 14px; font-weight: 700; }
-
-  main{max-width:1120px;margin:30px auto;padding:20px;flex:1}
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:40px}
-  .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(47,35,48,.06)}
-  h3{margin:0 0 8px;display:flex;align-items:center;gap:10px;font-size:20px}
-  p{color:var(--muted);margin:0 0 10px}
-
-  .reviews{max-width:1120px;margin:0 auto 60px;padding:0 20px;}
-  .reviews h2{text-align:center;font-size:28px;font-weight:800;margin:0 0 30px;color:var(--text);}
-  .review-list{display:grid;grid-template-columns:1fr;gap:20px;}
-  .review{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 8px 24px rgba(47,35,48,.05);display:flex;align-items:flex-start;gap:16px;transition:transform .2s ease;width:100%;}
-  .review:hover{transform:translateY(-4px);}
-  .review img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid var(--pink-2);}
-  .review-content{flex:1;}
-  .review .stars{color:var(--star-color);font-size:18px;font-weight:800;margin-bottom:8px;letter-spacing:2px;}
-  .review-content p{color:var(--text);line-height:1.6;font-size:15px;margin:0;font-weight:500;}
-
-  .mockup-wrap{display:flex;justify-content:center;margin:30px 0}
-  .mockup{width:340px;height:630px;border-radius:36px;padding:14px;background:linear-gradient(180deg,#fff,#fff6fb);box-shadow:0 30px 60px rgba(0,0,0,.12);position:relative;overflow:hidden}
-  html.dark .mockup{background:linear-gradient(180deg,#111,#0f0810)}
-  .screen{width:100%;height:100%;border-radius:26px;background:#fff;padding:12px;overflow:hidden;position:relative}
-  html.dark .screen{background:#141217}
-
-  .bubble{max-width:72%;padding:10px 14px;border-radius:14px;margin:8px 0;opacity:0;transform:translateY(8px);transition:all .35s}
-  .bubble.other{background:#f1f1f1;color:#222;border-radius:14px 14px 14px 4px}
-  .bubble.me{background:linear-gradient(90deg,var(--pink-3),var(--pink-4));color:#fff;margin-left:auto;border-radius:14px 14px 4px 14px}
-  html.dark .bubble.other{background:#2b2b2b;color:#fff}
-
-  .typing{display:inline-block;background:rgba(0,0,0,.06);padding:8px 12px;border-radius:12px}
-  html.dark .typing{background:rgba(255,255,255,.06)}
-  .dots span{display:inline-block;width:6px;height:6px;background:rgba(0,0,0,.24);border-radius:50%;margin:0 2px;opacity:0.4;animation:blink 1s infinite}
-  .dots span:nth-child(2){animation-delay:.15s}
-  .dots span:nth-child(3){animation-delay:.3s}
-  @keyframes blink{0%{opacity:.18;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}100%{opacity:.18;transform:translateY(0)}}
-
-  .hearts-layer{position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;overflow:hidden;z-index:1000}
-  .heart-p{position:absolute;width:18px;height:18px;background:linear-gradient(90deg,#ff8fc9,#ff57a8);transform:rotate(45deg);opacity:.95;border-radius:4px;will-change:transform,opacity}
-
-  footer{margin-top:auto;padding:30px 6%;text-align:center;border-top:1px solid rgba(47,35,48,.08);background:var(--pink-1);transition:background .35s,color .35s;}
-  html.dark footer{background:var(--pink-1);border-top-color:rgba(255,255,255,.08);}
-  .contact{max-width:600px;margin:0 auto 20px;}
-  .contact h3{font-size:18px;justify-content:center;color:var(--text);margin-bottom:12px;}
-  .contact p{color:var(--muted);line-height:1.6;}
-  .contact a{color:var(--pink-4);text-decoration:none;font-weight:600;transition:color .2s ease;}
-  .contact a:hover{color:var(--pink-3);}
-  footer .copyright{color:var(--muted);font-size:14px;margin:0;}
-
-  .row{display:flex;gap:12px;align-items:center}
-  .muted{color:var(--muted);font-size:13px}
-
-  @media(max-width:900px){
-    header{align-items:flex-start;gap:16px;flex-direction:column}
-    .controls{width:100%;justify-content:space-between}
-    .grid{grid-template-columns:1fr}
-    .hero .title{font-size:26px}
-    .mockup{width:280px;height:520px}
-    footer{padding:20px 6%;margin-top:40px}
-    .contact h3{font-size:16px}
-    .contact p{font-size:14px}
-    .reviews h2{font-size:24px}
-    .review{flex-direction:column;align-items:flex-start;text-align:left}
-    .review img{margin-bottom:12px}
-    .appstore-btn { width: 120px; height: 38px; }
-    .appstore-icon { font-size: 18px; }
-    .appstore-text-top { font-size: 8px; }
-    .appstore-text-bottom { font-size: 12px; }
-    .app-store-badge{height:48px}
-    .logo-bubble{width:56px;height:56px;}
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="brand">
-    <div class="logo-bubble">
-      <img src="./logo.jpg" alt="戀聊鍵盤" class="logo-img" id="logoImg">
-    </div>
-    <div class="brand-title">
-      <div class="title" id="brandTitle">戀聊鍵盤</div>
-      <div class="subtitle muted" id="brandSubtitle">聊得甜、回得快、懂你剛剛好</div>
-    </div>
-  </div>
-
-  <div class="controls">
-    <select id="langSelect" class="lang-select" aria-label="Language select">
-      <option value="zh-Hant">繁體中文</option>
-      <option value="zh-Hans">简体中文</option>
-      <option value="en">English</option>
-    </select>
-    <button id="darkToggle" class="dark-toggle" aria-pressed="false">深色</button>
-  </div>
-</header>
-
-<section class="hero" aria-labelledby="heroTitle">
-  <div style="max-width:920px;margin:0 auto">
-    <div class="title hero-title" id="heroTitle">💗 戀聊鍵盤 —— 讓對話更甜、更靠近</div>
-    <div class="lead" id="heroLead">AI 生成撩人話術、貼心回覆、情侶主題鍵盤與可愛貼圖，並以本地化隱私保護守護你們的秘密。</div>
-    <div style="margin-top:18px;display:flex;justify-content:center;margin-bottom:5px">
-      <a href="https://apps.apple.com/us/app/%E6%88%80%E8%81%8A%E9%8D%B5%E7%9B%A4/id6756173954" target="_blank" style="display:inline-block;">
-        <img id="appStoreBadge" class="app-store-badge" src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
-      </a>
-    </div>
-  </div>
-</section>
-
-<div class="mockup-wrap" aria-hidden="false">
-  <div class="mockup" role="img" aria-label="Phone chat mockup" id="phoneMockup">
-    <div class="screen" id="chatScreen" aria-live="polite" aria-atomic="false"></div>
-  </div>
-</div>
-
-<main>
-  <div class="grid">
-    <div class="card" data-card-index="0">
-      <h3>🧑‍🤝‍🧑 幫你回 · 人設千變萬化</h3>
-      <p>依照你的性別與偏好推薦 18 種預設戀愛人設，從溫柔男友到調情女王，一鍵切換想呈現的聊天形象。</p>
-    </div>
-    <div class="card" data-card-index="1">
-      <h3>🎤 超會說 · 句句有溫度</h3>
-      <p>多種語氣選擇：高情商、甜蜜、撒嬌、冷淡、霸氣等。AI 自動潤色，讓每句話都更有魅力。</p>
-    </div>
-    <div class="card" data-card-index="2">
-      <h3>💬 開場白 · 不再冷場</h3>
-      <p>100+ 場景開場：初識、試探、幽默、邀約、早安晚安等，無論關係階段都能找到適合的第一句。</p>
-    </div>
-    <div class="card" data-card-index="3">
-      <h3>❤️‍🔥 親密度 · 智能調整</h3>
-      <p>根據你設定的親密等級，AI 會調整回覆的曖昧度，從禮貌到大膽，掌握聊天節奏。</p>
-    </div>
-    <div class="card" data-card-index="4">
-      <h3>🔒 隱私保護 · 你的秘密，鎖在你手機</h3>
-      <p>所有生成與語氣處理在本地完成，不上雲、不外傳。隱私輸入模式、私密詞庫與最小權限設計，讓你安心使用。</p>
-    </div>
-    <div class="card" data-card-index="5">
-      <h3>✨ 更多小功能 · 讓聊天更順</h3>
-      <p>快速風格切換、智能錯字修正、自訂快捷甜句，還可選擇透過 iCloud 安全同步你的偏好（僅限你帳號）。</p>
-    </div>
-  </div>
-
-  <section class="reviews">
-    <h2 id="reviewsTitle">💬 用戶評論</h2>
-    <div class="review-list">
-      <div class="review">
-        <img src="https://randomuser.me/api/portraits/women/91.jpg" alt="用戶1" loading="lazy">
-        <div class="review-content">
-          <div class="stars">★★★★★</div>
-          <p id="review1">用戀聊鍵盤之後，和男友的對話每天都甜滋滋的～AI推薦的回覆超貼心！</p>
-        </div>
-      </div>
-      <div class="review">
-        <img src="https://randomuser.me/api/portraits/men/76.jpg" alt="用戶2" loading="lazy">
-        <div class="review-content">
-          <div class="stars">★★★★★</div>
-          <p id="review2">終於不用苦惱要怎麼回覆曖昧對象了，這個鍵盤真的懂女生的心💖</p>
-        </div>
-      </div>
-      <div class="review">
-        <img src="https://randomuser.me/api/portraits/women/62.jpg" alt="用戶3" loading="lazy">
-        <div class="review-content">
-          <div class="stars">★★★★★</div>
-          <p id="review3">自從用了戀聊鍵盤，我們的感情越來越好，開場白超好用，再也不冷場！</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="contact" id="footerContact">
-    <h3 id="contactTitle">📩 聯繫我們</h3>
-    <p id="contactDesc">如有問題或建議，請發送郵件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a></p>
-  </div>
-  <p class="copyright" id="copyrightText">© 2025 戀聊鍵盤 版權所有</p>
-</footer>
-
-<div class="hearts-layer" id="heartsLayer" aria-hidden="true"></div>
-
-<script>
-const LOCALES = {
-  'zh-Hant': {
-    htmlLang: 'zh-Hant',
-    pageTitle: '戀聊鍵盤 LoveTalk Keyboard',
-    brand: '戀聊鍵盤',
-    subtitle: '聊得甜、回得快、懂你剛剛好',
-    heroTitle: '💗 戀聊鍵盤 —— 讓對話更甜、更靠近',
-    heroLead: 'AI 生成撩人話術、貼心回覆、情侶主題鍵盤與可愛貼圖，並以本地化隱私保護守護你們的秘密。',
-    darkLabel: '深色',
-    lightLabel: '淺色',
-    logoAlt: '戀聊鍵盤',
-    appStoreAlt: '在 App Store 下載',
-    appStoreLocale: 'zh-tw',
-    footer: {
-      contactTitle: '📩 聯繫我們',
-      contactDesc: '如有問題或建議，請發送郵件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
-      copyright: '© 2025 戀聊鍵盤 版權所有'
-    },
-    reviews: {
-      title: '💬 用戶評論',
-      review1: '用戀聊鍵盤之後，和男友的對話每天都甜滋滋的～AI推薦的回覆超貼心！',
-      review2: '終於不用苦惱要怎麼回覆曖昧對象了，這個鍵盤真的懂女生的心💖',
-      review3: '自從用了戀聊鍵盤，我們的感情越來越好，開場白超好用，再也不冷場！'
-    },
-    sampleMsgs: [
-      {from:'other', text:'嘿～在幹嘛？'},
-      {from:'me', text:'想你了，所以來找你聊聊天 😊'},
-      {from:'other', text:'好甜…你今天怎麼這麼主動？'},
-      {from:'me', text:'因為你回我，我就會變更甜 💗'}
-    ],
-    cards: [
-      {title: '🧑‍🤝‍🧑 幫你回 · 人設千變萬化', desc: '依照你的性別與偏好推薦 18 種預設戀愛人設，從溫柔男友到調情女王，一鍵切換想呈現的聊天形象。'},
-      {title: '🎤 超會說 · 句句有溫度', desc: '多種語氣選擇：高情商、甜蜜、撒嬌、冷淡、霸氣等。AI 自動潤色，讓每句話都更有魅力。'},
-      {title: '💬 開場白 · 不再冷場', desc: '100+ 場景開場：初識、試探、幽默、邀約、早安晚安等，無論關係階段都能找到適合的第一句。'},
-      {title: '❤️‍🔥 親密度 · 智能調整', desc: '根據你設定的親密等級，AI 會調整回覆的曖昧度，從禮貌到大膽，掌握聊天節奏。'},
-      {title: '🔒 隱私保護 · 你的秘密，鎖在你手機', desc: '所有生成與語氣處理在本地完成，不上雲、不外傳。隱私輸入模式、私密詞庫與最小權限設計，讓你安心使用。'},
-      {title: '✨ 更多小功能 · 讓聊天更順', desc: '快速風格切換、智能錯字修正、自訂快捷甜句，還可選擇透過 iCloud 安全同步你的偏好（僅限你帳號）。'}
-    ]
-  },
-  'zh-Hans': {
-    htmlLang: 'zh-Hans',
-    pageTitle: '恋聊键盘 LoveTalk Keyboard',
-    brand:'恋聊键盘',
-    subtitle:'聊得甜、回得快、懂你刚刚好',
-    heroTitle:'💗 恋聊键盘 —— 让对话更甜、更靠近',
-    heroLead:'AI 生成撩人话术、贴心回复、情侣主题键盘与可爱贴图，并以本地隐私保护守护你们的秘密。',
-    darkLabel: '深色',
-    lightLabel: '浅色',
-    logoAlt: '恋聊键盘',
-    appStoreAlt: '在 App Store 下载',
-    appStoreLocale: 'zh-cn',
-    footer: {
-      contactTitle: '📩 联系我们',
-      contactDesc: '如有问题或建议，请发送邮件至：<a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
-      copyright: '© 2025 恋聊键盘 版权所有'
-    },
-    reviews: {
-      title: '💬 用户评论',
-      review1: '用了恋聊键盘之后，和男友的对话每天都甜滋滋的～AI推荐的回复超贴心！',
-      review2: '终于不用苦恼该怎么回复暧昧对象了，这个键盘真的懂女生的心💖',
-      review3: '自从用了恋聊键盘，我们的感情越来越好，开场白超好用，再也不冷场！'
-    },
-    sampleMsgs:[
-      {from:'other', text:'嘿～在干嘛？'},
-      {from:'me', text:'想你了，所以来找你聊天 😊'},
-      {from:'other', text:'好甜…你今天怎么这么主动？'},
-      {from:'me', text:'因为你回我，我就会变更甜 💗'}
-    ],
-    cards: [
-      {title: '🧑‍🤝‍🧑 帮你回 · 人设千变万化', desc: '依照你的性别与偏好推荐 18 种预设恋爱人设，从温柔男友到调情女王，一键切换想呈现的聊天形象。'},
-      {title: '🎤 超会说 · 句句有温度', desc: '多种语气选择：高情商、甜蜜、撒娇、冷淡、霸气等。AI 自动润色，让每句话都更有魅力。'},
-      {title: '💬 开场白 · 不再冷场', desc: '100+ 场景开场：初识、试探、幽默、邀约、早安晚安等，无论关系阶段都能找到适合的第一句。'},
-      {title: '❤️‍🔥 亲密度 · 智能调整', desc: '根据你设定的亲密等级，AI 会调整回复的暧昧度，从礼貌到大胆，掌握聊天节奏。'},
-      {title: '🔒 隐私保护 · 你的秘密，锁在你手机', desc: '所有生成与语气处理在本地完成，不上云、不外传。隐私输入模式、私密词库与最小权限设计，让你安心使用。'},
-      {title: '✨ 更多小功能 · 让聊天更顺', desc: '快速风格切换、智能错字修正、自定义快捷甜句，还可选择通过 iCloud 安全同步你的偏好（仅限你账号）。'}
-    ]
-  },
-  'en': {
-    htmlLang: 'en',
-    pageTitle: 'LoveTalk Keyboard',
-    brand:'LoveTalk Keyboard',
-    subtitle:'Sweet chats. Fast replies. Just right.',
-    heroTitle:'💗 LoveChat Keyboard — Make every message feel a little more romantic',
-    heroLead:'AI-powered flirty replies, mood-aware suggestions, couple themes and cute emoji—built with privacy-first design so your sweet moments stay private.',
-    darkLabel: 'Dark',
-    lightLabel: 'Light',
-    logoAlt: 'LoveTalk Keyboard',
-    appStoreAlt: 'Download on the App Store',
-    appStoreLocale: 'en-us',
-    footer: {
-      contactTitle: '📩 Contact Us',
-      contactDesc: 'For inquiries or feedback, email us at: <a href="mailto:lovekeyboard.feedback@outlook.com">lovekeyboard.feedback@outlook.com</a>',
-      copyright: '© 2025 Love Keyboard All Rights Reserved'
-    },
-    reviews: {
-      title: '💬 User Reviews',
-      review1: 'Since using LoveChat Keyboard, my chats with my boyfriend are sweet every day～AI-recommended replies are so thoughtful!',
-      review2: 'No more struggling to reply to my crush — this keyboard really gets what girls want💖',
-      review3: 'Our relationship has gotten better since using LoveChat Keyboard. The opening lines are amazing, no more awkward silences!'
-    },
-    sampleMsgs:[
-      {from:'other', text:'Hey — what are you up to?'},
-      {from:'me', text:"Miss you, wanted to chat 😊"},
-      {from:'other', text:"That's sweet... why are you so active today?"},
-      {from:'me', text:"Because you replied, I get sweeter 💗"}
-    ],
-    cards: [
-      {title: '🧑‍🤝‍🧑 Reply For You · 18 Personalities', desc: '18 preset dating personalities based on your gender and preferences — from gentle boyfriend to flirty queen, switch your chat persona with one tap.'},
-      {title: '🎤 Great Conversationalist · Warm Messages', desc: 'Multiple tone options: high EQ, sweet, coquettish, cool, domineering, etc. AI automatically polishes every message to make it more charming.'},
-      {title: '💬 Opening Lines · No More Awkward Silences', desc: '100+ scenario openers: first meeting, testing the waters, humor, invitations, good morning/good night — find the perfect first line for any relationship stage.'},
-      {title: '❤️‍🔥 Intimacy Level · Smart Adjustment', desc: 'AI adjusts the flirt level of replies based on your set intimacy grade — from polite to bold, master the chat rhythm perfectly.'},
-      {title: '🔒 Privacy Protection · Your Secrets Stay Safe', desc: 'All generation and tone processing done locally on your device — no cloud uploads, no data sharing. Privacy input mode, private lexicon and minimal permission design for complete peace of mind.'},
-      {title: '✨ More Features · Smoother Chats', desc: 'Quick style switching, smart typo correction, custom shortcut sweet phrases, and optional secure sync of preferences via iCloud (your account only).'}
-    ]
-  }
-};
-
-const SUPPORTED_LANGUAGES = ['zh-Hant', 'zh-Hans', 'en'];
-const langSelect = document.getElementById('langSelect');
-const brandTitle = document.getElementById('brandTitle');
-const brandSubtitle = document.getElementById('brandSubtitle');
-const heroTitle = document.getElementById('heroTitle');
-const heroLead = document.getElementById('heroLead');
-const chatScreen = document.getElementById('chatScreen');
-const heartsLayer = document.getElementById('heartsLayer');
-const contactTitle = document.getElementById('contactTitle');
-const contactDesc = document.getElementById('contactDesc');
-const copyrightText = document.getElementById('copyrightText');
-const reviewsTitle = document.getElementById('reviewsTitle');
-const review1 = document.getElementById('review1');
-const review2 = document.getElementById('review2');
-const review3 = document.getElementById('review3');
-const appStoreBadge = document.getElementById('appStoreBadge');
-const logoImg = document.getElementById('logoImg');
-const darkToggle = document.getElementById('darkToggle');
-
-let currentLocale = 'en';
-let SAMPLE_MSGS = LOCALES['en'].sampleMsgs;
-let msgIndex = 0;
-let chatLoopToken = 0;
-
-function normalizeLanguage(language) {
-  const value = String(language || '').toLowerCase();
-
-  if (value.startsWith('zh')) {
-    if (
-      value.includes('hans') ||
-      value.includes('-cn') ||
-      value.includes('-sg') ||
-      value.includes('-my')
-    ) {
-      return 'zh-Hans';
-    }
-
-    return 'zh-Hant';
-  }
-
-  if (value.startsWith('en')) {
-    return 'en';
-  }
-
-  return '';
-}
-
-function detectLanguage() {
-  const browserLanguages = navigator.languages && navigator.languages.length
-    ? navigator.languages
-    : [navigator.language || navigator.userLanguage];
-
-  for (const language of browserLanguages) {
-    const normalized = normalizeLanguage(language);
-    if (SUPPORTED_LANGUAGES.includes(normalized)) {
-      return normalized;
-    }
-  }
-
-  return 'en';
-}
-
-function updateDarkToggleLabel(){
-  const dict = LOCALES[currentLocale] || LOCALES.en;
-  darkToggle.textContent = document.documentElement.classList.contains('dark')
-    ? dict.lightLabel
-    : dict.darkLabel;
-}
-
-function applyLocale(code){
-  const nextCode = SUPPORTED_LANGUAGES.includes(code) ? code : 'en';
-  const dict = LOCALES[nextCode] || LOCALES.en;
-  currentLocale = nextCode;
-
-  document.documentElement.lang = dict.htmlLang;
-  document.title = dict.pageTitle;
-  langSelect.value = nextCode;
-  brandTitle.textContent = dict.brand;
-  brandSubtitle.textContent = dict.subtitle;
-  heroTitle.textContent = dict.heroTitle;
-  heroLead.textContent = dict.heroLead;
-  contactTitle.textContent = dict.footer.contactTitle;
-  contactDesc.innerHTML = dict.footer.contactDesc;
-  copyrightText.textContent = dict.footer.copyright;
-  reviewsTitle.textContent = dict.reviews.title;
-  review1.textContent = dict.reviews.review1;
-  review2.textContent = dict.reviews.review2;
-  review3.textContent = dict.reviews.review3;
-  logoImg.alt = dict.logoAlt;
-  appStoreBadge.alt = dict.appStoreAlt;
-  appStoreBadge.src = `https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/${dict.appStoreLocale}?size=250x83`;
-
-  dict.cards.forEach((card, index) => {
-    const cardElement = document.querySelector(`.card[data-card-index="${index}"]`);
-    if(!cardElement) return;
-
-    const titleElement = cardElement.querySelector('h3');
-    const descElement = cardElement.querySelector('p');
-    if(titleElement) titleElement.textContent = card.title;
-    if(descElement) descElement.textContent = card.desc;
-  });
-
-  SAMPLE_MSGS = dict.sampleMsgs;
-  updateDarkToggleLabel();
-  playChatLoop();
-}
-
-langSelect.addEventListener('change', (e)=>{
-  applyLocale(e.target.value);
-});
-
-darkToggle.addEventListener('click', ()=>{
-  const isDark = document.documentElement.classList.toggle('dark');
-  darkToggle.setAttribute('aria-pressed', String(isDark));
-  updateDarkToggleLabel();
-});
-
-if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){
-  document.documentElement.classList.add('dark');
-  darkToggle.setAttribute('aria-pressed', 'true');
-}
-
-function createTypingBubble(){
-  const wrap = document.createElement('div');
-  wrap.className = 'bubble other typing';
-  const dots = document.createElement('span');
-  dots.className = 'dots';
-  dots.innerHTML = '<span></span><span></span><span></span>';
-  wrap.appendChild(dots);
-  return wrap;
-}
-
-function createBubble(msg){
-  const el = document.createElement('div');
-  el.className = 'bubble ' + (msg.from === 'me' ? 'me' : 'other');
-  el.textContent = msg.text;
-  return el;
-}
-
-function playChatLoop(){
-  const token = ++chatLoopToken;
-  chatScreen.innerHTML = '';
-  msgIndex = 0;
-
-  function next(){
-    if(token !== chatLoopToken) return;
-
-    const msgs = SAMPLE_MSGS;
-    if(msgIndex >= msgs.length){
-      setTimeout(()=>{ if(token === chatLoopToken) playChatLoop(); }, 1600);
-      return;
-    }
-
-    const typing = createTypingBubble();
-    chatScreen.appendChild(typing);
-    chatScreen.scrollTop = chatScreen.scrollHeight;
-    const typingDuration = 700 + Math.random()*400;
-
-    setTimeout(()=>{
-      if(token !== chatLoopToken) return;
-
-      typing.remove();
-      const b = createBubble(msgs[msgIndex]);
-      chatScreen.appendChild(b);
-      requestAnimationFrame(()=>{
-        b.style.opacity = 1;
-        b.style.transform = 'translateY(0)';
-      });
-      if(msgs[msgIndex].from === 'me'){
-        spawnHearts(6, {x:260 + Math.random()*40, y:160 + Math.random()*220});
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>戀聊鍵盤 服務條款</title>
+    <style>
+      html,
+      body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        white-space: normal;
+        word-break: break-word;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        background: #f9fafc;
+        color: #333;
       }
-      msgIndex++;
-      setTimeout(next, 900 + Math.random()*500);
-    }, typingDuration);
-  }
 
-  next();
-}
+      body {
+        padding: 20px;
+      }
 
-function spawnHearts(count=8, origin=null){
-  for(let i=0;i<count;i++){
-    const h = document.createElement('div');
-    h.className = 'heart-p';
-    h.style.left = (origin && origin.x ? origin.x : (20 + Math.random()* (window.innerWidth-40))) + 'px';
-    h.style.top = (origin && origin.y ? origin.y : -20 + Math.random()*40) + 'px';
-    const size = 10 + Math.random()*18;
-    h.style.width = size + 'px';
-    h.style.height = size + 'px';
-    h.style.background = `linear-gradient(135deg, rgba(255,140,180,${0.95 - Math.random()*0.2}), rgba(255,90,155,${0.95 - Math.random()*0.2}))`;
-    heartsLayer.appendChild(h);
-    const dx = (Math.random()-0.5) * 300;
-    const dy = window.innerHeight * (0.6 + Math.random()*0.6);
-    const rot = (Math.random()-0.5)*720;
-    const dur = 2200 + Math.random()*1600;
-    h.animate([
-      { transform: `translate3d(0px,0px,0) rotate(0deg)`, opacity:1 },
-      { transform: `translate3d(${dx}px,${dy}px,0) rotate(${rot}deg)`, opacity:0.02 }
-    ], { duration: dur, easing: 'cubic-bezier(.2,.9,.2,1)' });
-    setTimeout(()=>{ h.remove(); }, dur+80);
-  }
-}
+      .page {
+        max-width: 960px;
+        margin: 0 auto;
+      }
 
-applyLocale(detectLanguage());
-setInterval(()=>{ spawnHearts(3); }, 2800);
-</script>
-</body>
+      .language-bar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      label {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-right: 8px;
+      }
+
+      select {
+        min-width: 160px;
+        border: 1px solid #cfd8e3;
+        border-radius: 6px;
+        background: #fff;
+        color: #333;
+        font-size: 15px;
+        padding: 8px 10px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        html,
+        body {
+          background: #1f1f1f;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        li,
+        label {
+          color: rgba(255, 255, 255, 0.9);
+        }
+
+        h1,
+        h2,
+        h3 {
+          color: #e0e0e0;
+        }
+
+        select {
+          border-color: #4b5563;
+          background: #2b2b2b;
+          color: rgba(255, 255, 255, 0.9);
+        }
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #2c3e50;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin: 8px 0;
+      }
+
+      li {
+        margin: 4px 0;
+      }
+
+      a {
+        color: #3498db;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      [data-terms-lang] {
+        display: none;
+      }
+
+      [data-terms-lang].active {
+        display: block;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 16px;
+        }
+
+        .language-bar {
+          justify-content: flex-start;
+        }
+
+        select {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="language-bar">
+        <label for="languageSelect" data-ui="languageLabel">語言</label>
+        <select id="languageSelect" aria-label="Language">
+          <option value="zh-Hant">繁體中文</option>
+          <option value="zh-Hans">简体中文</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <main>
+        <article data-terms-lang="zh-Hant">
+          <h1>戀聊鍵盤 服務條款</h1>
+
+          <p>最後更新日期：2025年10月21日</p>
+
+          <h3>1. 接受服務條款</h3>
+          <p>
+            歡迎使用「戀聊鍵盤」！本服務條款（以下簡稱「本條款」）規範您存取及使用戀聊鍵盤行動應用程式（以下簡稱「本App」）與相關服務（合稱「本服務」）的行為。請您仔細閱讀本條款內容。
+            一旦您下載、安裝或使用本服務，即表示您已閱讀、理解並同意受本條款約束。若您不同意本條款，請立即停止使用本App。
+          </p>
+
+          <h3>2. 隱私政策</h3>
+          <p>
+            您使用本服務同時受我們的<a href="privacypolicy.html">隱私政策</a>規範，該政策說明我們如何收集、使用及保護您的個人資訊（不含任何位置相關數據）。
+          </p>
+
+          <h3>3. 適用資格</h3>
+          <p>
+            本服務僅開放予年滿18歲之使用者。若您未滿18歲，須在父母或法定監護人的同意下使用本App。使用本App即表示您聲明符合上述資格要求。
+          </p>
+
+          <h3>4. 服務說明</h3>
+          <p>
+            戀聊鍵盤為一款提供AI智能聊天回覆輔助的戀愛溝通工具，透過智慧演算法生成符合戀愛場景的聊天回覆建議，協助使用者優化溝通體驗。本服務不涉及任何位置追蹤、GPS數據收集功能。
+          </p>
+
+          <h3>5. 帳戶註冊與安全</h3>
+          <p>
+            使用部分高級功能（如自定義AI回覆風格、雲端備份設定）需註冊帳戶。您同意：
+          </p>
+          <ul>
+            <li>註冊時提供正確、最新且完整的資訊；</li>
+            <li>必要時即時更新您的帳戶資訊，確保其準確性；</li>
+            <li>妥善保管您的登入憑證（如帳號、密碼），不向他人洩露；</li>
+            <li>對您帳戶下發生的所有操作行為承擔全部責任。</li>
+          </ul>
+
+          <h3>6. 使用者責任</h3>
+          <p>您同意不濫用本App或本服務，包括但不限於：</p>
+          <ul>
+            <li>利用AI回覆功能從事違法、騷擾、詐騙、誹謗或侵犯他人隱私的行為；</li>
+            <li>未經授權存取或嘗試存取其他使用者的帳戶、數據或設定；</li>
+            <li>上傳、分享任何有害、虛假、不雅或違反法令的內容；</li>
+            <li>干擾本App的正常運作（如篡改程式、攻擊伺服器、使用外掛工具等）；</li>
+            <li>將本App用於商業推廣、垃圾訊息發送等非個人使用之目的。</li>
+          </ul>
+          <p>
+            您確認使用本App的核心功能需授予鍵盤使用權限，您可透過裝置設定管理或撤回該權限；撤回鍵盤權限將導致核心AI回覆功能無法使用。
+          </p>
+
+          <h3>7. 購買、訂閱與帳單</h3>
+          <p>
+            部分功能（如無廣告體驗、自定義AI回覆風格、高級語義分析）僅透過付費訂閱（以下簡稱「高級服務」）提供。訂閱條款、價格及續約週期將於本App內或您的App Store帳戶中明示。
+          </p>
+          <ul>
+            <li>所有付款透過App Store安全處理，我們不會收集您的支付卡號、密碼等敏感資訊；</li>
+            <li>訂閱將自動續約，除非您在續約日期前取消訂閱；</li>
+            <li>除適用法令另有規定外，所有付款一經完成即不予退款；</li>
+            <li>您可隨時透過App Store帳戶設定取消訂閱，取消後高級服務將於當前訂閱週期結束後失效。</li>
+          </ul>
+
+          <h3>8. 修改與更新</h3>
+          <p>
+            我們得不定期更新或修改本App及本條款。更新內容將於本App內或官方網站公告後生效。若您在條款變更後繼續使用本App，即表示您接受修改後的條款。
+          </p>
+
+          <h3>9. 鍵盤權限與數據使用</h3>
+          <p>
+            本App依賴鍵盤使用權限及有限的設備數據實現核心功能。您同意：
+          </p>
+          <ul>
+            <li>戀聊鍵盤僅會收集實現AI回覆所需的最小範圍數據（如您輸入的聊天語句、設備基礎資訊），且不會收集任何位置相關數據；</li>
+            <li>您可隨時透過裝置設定開啟或關閉鍵盤權限，關閉後核心服務將無法使用；</li>
+            <li>您需確保使用AI回覆內容符合相關法令，且不會侵犯他人權益。</li>
+          </ul>
+          <p>
+            濫用本服務（如利用AI生成違法、不當內容）將導致帳戶停用，並可能依法追究相關責任。
+          </p>
+
+          <h3>10. 終止使用</h3>
+          <p>
+            我們有權隨時暫停或終止您的服務存取權，無須事先通知，若您的行為被認定為違反本條款、隱私政策或相關法令。終止後您將無法存取本App的付費功能及帳戶數據（除非法令另有規定）。
+          </p>
+
+          <h3>11. 智慧財產權</h3>
+          <p>
+            本App相關之所有內容、軟體、商標及其他素材，均為戀聊鍵盤開發團隊或其授權方所有。我們授予您有限、不可轉讓、非專屬的使用授權，僅供您個人、非商業目的使用本App。
+          </p>
+
+          <h3>12. 免責聲明</h3>
+          <p>
+            本服務係以「現狀」及「可取得」方式提供，我們不對本App的運作穩定性、可用性或資訊準確性作出任何明示或默示的保證。您使用本App的風險由您自行承擔。
+          </p>
+
+          <h3>13. 責任限制</h3>
+          <p>
+            在法令允許的最大範圍內，戀聊鍵盤及其關係企業不對您使用本服務所產生的間接、附帶或衍生性損害負賠償責任。我們的總賠償責任最高不超過您過去12個月內為使用本服務所支付的金額（若無付費，則不承擔金錢賠償責任）。
+          </p>
+
+          <h3>14. 第三方服務</h3>
+          <p>
+            本App可能整合第三方服務，您使用該等服務需遵守第三方各自的服務條款及隱私政策。我們不對第三方服務的內容或安全性承擔責任。
+          </p>
+
+          <h3>15. 聯繫我們</h3>
+          <p>
+            若您對本條款或本App有任何疑問，請透過以下方式聯繫我們：
+          </p>
+          <p><strong>電子郵件：</strong> lovekeyboard.feedback@outlook.com</p>
+        </article>
+
+        <article data-terms-lang="zh-Hans">
+          <h1>恋聊键盘 服务条款</h1>
+
+          <p>最后更新日期：2025年10月21日</p>
+
+          <h3>1. 接受服务条款</h3>
+          <p>
+            欢迎使用“恋聊键盘”！本服务条款（以下简称“本条款”）规范您访问及使用恋聊键盘移动应用程序（以下简称“本App”）与相关服务（合称“本服务”）的行为。请您仔细阅读本条款内容。
+            一旦您下载、安装或使用本服务，即表示您已阅读、理解并同意受本条款约束。若您不同意本条款，请立即停止使用本App。
+          </p>
+
+          <h3>2. 隐私政策</h3>
+          <p>
+            您使用本服务同时受我们的<a href="privacypolicy.html">隐私政策</a>规范，该政策说明我们如何收集、使用及保护您的个人信息（不含任何位置相关数据）。
+          </p>
+
+          <h3>3. 适用资格</h3>
+          <p>
+            本服务仅开放予年满18岁之使用者。若您未满18岁，须在父母或法定监护人的同意下使用本App。使用本App即表示您声明符合上述资格要求。
+          </p>
+
+          <h3>4. 服务说明</h3>
+          <p>
+            恋聊键盘为一款提供AI智能聊天回复辅助的恋爱沟通工具，通过智能算法生成符合恋爱场景的聊天回复建议，协助使用者优化沟通体验。本服务不涉及任何位置追踪、GPS数据收集功能。
+          </p>
+
+          <h3>5. 账户注册与安全</h3>
+          <p>
+            使用部分高级功能（如自定义AI回复风格、云端备份设置）需注册账户。您同意：
+          </p>
+          <ul>
+            <li>注册时提供正确、最新且完整的信息；</li>
+            <li>必要时即时更新您的账户信息，确保其准确性；</li>
+            <li>妥善保管您的登录凭证（如账号、密码），不向他人泄露；</li>
+            <li>对您账户下发生的所有操作行为承担全部责任。</li>
+          </ul>
+
+          <h3>6. 使用者责任</h3>
+          <p>您同意不滥用本App或本服务，包括但不限于：</p>
+          <ul>
+            <li>利用AI回复功能从事违法、骚扰、诈骗、诽谤或侵犯他人隐私的行为；</li>
+            <li>未经授权访问或尝试访问其他使用者的账户、数据或设置；</li>
+            <li>上传、分享任何有害、虚假、不雅或违反法令的内容；</li>
+            <li>干扰本App的正常运作（如篡改程序、攻击服务器、使用外挂工具等）；</li>
+            <li>将本App用于商业推广、垃圾信息发送等非个人使用之目的。</li>
+          </ul>
+          <p>
+            您确认使用本App的核心功能需授予键盘使用权限，您可通过设备设置管理或撤回该权限；撤回键盘权限将导致核心AI回复功能无法使用。
+          </p>
+
+          <h3>7. 购买、订阅与账单</h3>
+          <p>
+            部分功能（如无广告体验、自定义AI回复风格、高级语义分析）仅通过付费订阅（以下简称“高级服务”）提供。订阅条款、价格及续约周期将于本App内或您的App Store账户中明示。
+          </p>
+          <ul>
+            <li>所有付款通过App Store安全处理，我们不会收集您的支付卡号、密码等敏感信息；</li>
+            <li>订阅将自动续约，除非您在续约日期前取消订阅；</li>
+            <li>除适用法令另有规定外，所有付款一经完成即不予退款；</li>
+            <li>您可随时通过App Store账户设置取消订阅，取消后高级服务将于当前订阅周期结束后失效。</li>
+          </ul>
+
+          <h3>8. 修改与更新</h3>
+          <p>
+            我们得不定期更新或修改本App及本条款。更新内容将于本App内或官方网站公告后生效。若您在条款变更后继续使用本App，即表示您接受修改后的条款。
+          </p>
+
+          <h3>9. 键盘权限与数据使用</h3>
+          <p>
+            本App依赖键盘使用权限及有限的设备数据实现核心功能。您同意：
+          </p>
+          <ul>
+            <li>恋聊键盘仅会收集实现AI回复所需的最小范围数据（如您输入的聊天语句、设备基础信息），且不会收集任何位置相关数据；</li>
+            <li>您可随时通过设备设置开启或关闭键盘权限，关闭后核心服务将无法使用；</li>
+            <li>您需确保使用AI回复内容符合相关法令，且不会侵犯他人权益。</li>
+          </ul>
+          <p>
+            滥用本服务（如利用AI生成违法、不当内容）将导致账户停用，并可能依法追究相关责任。
+          </p>
+
+          <h3>10. 终止使用</h3>
+          <p>
+            我们有权随时暂停或终止您的服务访问权，无须事先通知，若您的行为被认定为违反本条款、隐私政策或相关法令。终止后您将无法访问本App的付费功能及账户数据（除非法令另有规定）。
+          </p>
+
+          <h3>11. 知识产权</h3>
+          <p>
+            本App相关之所有内容、软件、商标及其他素材，均为恋聊键盘开发团队或其授权方所有。我们授予您有限、不可转让、非专属的使用授权，仅供您个人、非商业目的使用本App。
+          </p>
+
+          <h3>12. 免责声明</h3>
+          <p>
+            本服务系以“现状”及“可取得”方式提供，我们不对本App的运作稳定性、可用性或信息准确性作出任何明示或默示的保证。您使用本App的风险由您自行承担。
+          </p>
+
+          <h3>13. 责任限制</h3>
+          <p>
+            在法令允许的最大范围内，恋聊键盘及其关联企业不对您使用本服务所产生的间接、附带或衍生性损害负赔偿责任。我们的总赔偿责任最高不超过您过去12个月内为使用本服务所支付的金额（若无付费，则不承担金钱赔偿责任）。
+          </p>
+
+          <h3>14. 第三方服务</h3>
+          <p>
+            本App可能整合第三方服务，您使用该等服务需遵守第三方各自的服务条款及隐私政策。我们不对第三方服务的内容或安全性承担责任。
+          </p>
+
+          <h3>15. 联系我们</h3>
+          <p>
+            若您对本条款或本App有任何疑问，请通过以下方式联系我们：
+          </p>
+          <p><strong>电子邮件：</strong> lovekeyboard.feedback@outlook.com</p>
+        </article>
+
+        <article data-terms-lang="en">
+          <h1>Love Chat Keyboard Terms of Service</h1>
+
+          <p>Last updated: October 21, 2025</p>
+
+          <h3>1. Acceptance of Terms</h3>
+          <p>
+            Welcome to "Love Chat Keyboard"! These Terms of Service (hereinafter referred to as the "Terms") govern your access to and use of the Love Chat Keyboard mobile application (hereinafter referred to as the "App") and related services (collectively, the "Services"). Please read these Terms carefully.
+            Once you download, install, or use the Services, you indicate that you have read, understood, and agreed to be bound by these Terms. If you do not agree to these Terms, please stop using the App immediately.
+          </p>
+
+          <h3>2. Privacy Policy</h3>
+          <p>
+            Your use of the Services is also governed by our <a href="privacypolicy.html">Privacy Policy</a>, which explains how we collect, use, and protect your personal information (excluding any location-related data).
+          </p>
+
+          <h3>3. Eligibility</h3>
+          <p>
+            The Services are available only to users who are at least 18 years old. If you are under 18, you must use the App with the consent of your parent or legal guardian. By using the App, you represent that you meet the above eligibility requirements.
+          </p>
+
+          <h3>4. Service Description</h3>
+          <p>
+            Love Chat Keyboard is a romantic communication tool that provides AI-powered chat reply assistance. It uses intelligent algorithms to generate chat reply suggestions suitable for romantic scenarios and helps users optimize their communication experience. The Services do not involve any location tracking or GPS data collection functions.
+          </p>
+
+          <h3>5. Account Registration and Security</h3>
+          <p>
+            Some premium features (such as customized AI reply styles and cloud backup settings) require account registration. You agree to:
+          </p>
+          <ul>
+            <li>Provide accurate, current, and complete information during registration;</li>
+            <li>Update your account information promptly when necessary to ensure its accuracy;</li>
+            <li>Properly safeguard your login credentials (such as account name and password) and not disclose them to others;</li>
+            <li>Assume full responsibility for all activities that occur under your account.</li>
+          </ul>
+
+          <h3>6. User Responsibilities</h3>
+          <p>You agree not to misuse the App or the Services, including but not limited to:</p>
+          <ul>
+            <li>Using the AI reply function to engage in illegal, harassing, fraudulent, defamatory, or privacy-infringing conduct;</li>
+            <li>Accessing or attempting to access other users' accounts, data, or settings without authorization;</li>
+            <li>Uploading or sharing any harmful, false, obscene, or unlawful content;</li>
+            <li>Interfering with the normal operation of the App (such as tampering with programs, attacking servers, or using plug-in tools);</li>
+            <li>Using the App for non-personal purposes such as commercial promotion or sending spam messages.</li>
+          </ul>
+          <p>
+            You acknowledge that use of the App's core functions requires granting keyboard access permission. You may manage or withdraw this permission through device settings. Withdrawing keyboard permission will make the core AI reply function unavailable.
+          </p>
+
+          <h3>7. Purchases, Subscriptions, and Billing</h3>
+          <p>
+            Some features (such as an ad-free experience, customized AI reply styles, and advanced semantic analysis) are available only through paid subscriptions (hereinafter referred to as "Premium Services"). Subscription terms, prices, and renewal cycles will be clearly displayed in the App or in your App Store account.
+          </p>
+          <ul>
+            <li>All payments are securely processed through the App Store. We do not collect sensitive information such as your payment card number or password;</li>
+            <li>Subscriptions will renew automatically unless you cancel before the renewal date;</li>
+            <li>Except as otherwise required by applicable laws, all payments are non-refundable once completed;</li>
+            <li>You may cancel your subscription at any time through your App Store account settings. After cancellation, Premium Services will expire at the end of the current subscription period.</li>
+          </ul>
+
+          <h3>8. Modifications and Updates</h3>
+          <p>
+            We may update or modify the App and these Terms from time to time. Updates will take effect after being announced in the App or on the official website. If you continue to use the App after the Terms are changed, you indicate your acceptance of the modified Terms.
+          </p>
+
+          <h3>9. Keyboard Permission and Data Use</h3>
+          <p>
+            The App relies on keyboard access permission and limited device data to implement its core functions. You agree that:
+          </p>
+          <ul>
+            <li>Love Chat Keyboard will collect only the minimum scope of data necessary to implement AI replies (such as the chat text you enter and basic device information), and will not collect any location-related data;</li>
+            <li>You may enable or disable keyboard permission at any time through device settings. After disabling it, the core Services will be unavailable;</li>
+            <li>You must ensure that your use of AI-generated reply content complies with applicable laws and does not infringe upon the rights and interests of others.</li>
+          </ul>
+          <p>
+            Misuse of the Services (such as using AI to generate illegal or inappropriate content) will result in account suspension and may lead to legal liability.
+          </p>
+
+          <h3>10. Termination</h3>
+          <p>
+            We have the right to suspend or terminate your access to the Services at any time without prior notice if your conduct is deemed to violate these Terms, the Privacy Policy, or applicable laws. After termination, you will no longer be able to access the App's paid functions or account data (unless otherwise required by law).
+          </p>
+
+          <h3>11. Intellectual Property Rights</h3>
+          <p>
+            All content, software, trademarks, and other materials related to the App are owned by the Love Chat Keyboard development team or its licensors. We grant you a limited, non-transferable, non-exclusive license to use the App only for your personal, non-commercial purposes.
+          </p>
+
+          <h3>12. Disclaimer</h3>
+          <p>
+            The Services are provided on an "as is" and "as available" basis. We make no express or implied warranties regarding the operational stability, availability, or accuracy of information in the App. Your use of the App is at your own risk.
+          </p>
+
+          <h3>13. Limitation of Liability</h3>
+          <p>
+            To the maximum extent permitted by law, Love Chat Keyboard and its affiliates shall not be liable for indirect, incidental, or consequential damages arising from your use of the Services. Our total liability shall not exceed the amount you paid for use of the Services in the past 12 months (if you made no payment, we shall not bear monetary compensation liability).
+          </p>
+
+          <h3>14. Third-Party Services</h3>
+          <p>
+            The App may integrate third-party services. Your use of such services is subject to the respective terms of service and privacy policies of those third parties. We are not responsible for the content or security of third-party services.
+          </p>
+
+          <h3>15. Contact Us</h3>
+          <p>
+            If you have any questions about these Terms or the App, please contact us through the following method:
+          </p>
+          <p><strong>Email:</strong> lovekeyboard.feedback@outlook.com</p>
+        </article>
+      </main>
+    </div>
+
+    <script>
+      const supportedLanguages = ["zh-Hant", "zh-Hans", "en"];
+      const languageLabels = {
+        "zh-Hant": "語言",
+        "zh-Hans": "语言",
+        en: "Language"
+      };
+      const pageTitles = {
+        "zh-Hant": "戀聊鍵盤 服務條款",
+        "zh-Hans": "恋聊键盘 服务条款",
+        en: "Love Chat Keyboard Terms of Service"
+      };
+
+      function normalizeLanguage(language) {
+        const value = String(language || "").toLowerCase();
+
+        if (value.startsWith("zh")) {
+          if (
+            value.includes("hans") ||
+            value.includes("-cn") ||
+            value.includes("-sg") ||
+            value.includes("-my")
+          ) {
+            return "zh-Hans";
+          }
+
+          return "zh-Hant";
+        }
+
+        if (value.startsWith("en")) {
+          return "en";
+        }
+
+        return "";
+      }
+
+      function detectLanguage() {
+        const browserLanguages = navigator.languages && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language || navigator.userLanguage];
+
+        for (const language of browserLanguages) {
+          const normalized = normalizeLanguage(language);
+          if (supportedLanguages.includes(normalized)) {
+            return normalized;
+          }
+        }
+
+        return "en";
+      }
+
+      function setLanguage(language) {
+        const nextLanguage = supportedLanguages.includes(language) ? language : "en";
+
+        document.documentElement.lang = nextLanguage === "zh-Hans"
+          ? "zh-CN"
+          : nextLanguage === "zh-Hant"
+            ? "zh-TW"
+            : "en";
+        document.title = pageTitles[nextLanguage];
+        document.querySelector('[data-ui="languageLabel"]').textContent = languageLabels[nextLanguage];
+
+        document.querySelectorAll("[data-terms-lang]").forEach((article) => {
+          article.classList.toggle("active", article.dataset.termsLang === nextLanguage);
+        });
+
+        const selector = document.getElementById("languageSelect");
+        selector.value = nextLanguage;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const selector = document.getElementById("languageSelect");
+        setLanguage(detectLanguage());
+
+        selector.addEventListener("change", (event) => {
+          setLanguage(event.target.value);
+        });
+      });
+    </script>
+  </body>
 </html>
